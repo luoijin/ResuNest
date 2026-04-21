@@ -56,10 +56,12 @@ const Signup = ({ onSwitchToLogin }) => {
   }
 
   return (
-    <div className="flip-back-content">
     <div className="signup-container">
       <div className="signup-card">
         <div className="signup-header">
+          <div className="signup-icon-wrapper">
+            <UserPlus className="signup-icon" size={24} />
+          </div>
           <h2 className="signup-title">Join Us</h2>
           <p className="signup-subtitle">
             Already have an account?
@@ -144,7 +146,6 @@ const Signup = ({ onSwitchToLogin }) => {
           </button>
         </form>
       </div>
-    </div>
     </div>
   )
 }
