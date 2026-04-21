@@ -152,3 +152,58 @@
   justify-content: center;
   gap: 0.5rem;
 }
+
+/* Role selection */
+.signup-role-section {
+  margin: 0.5rem 0;
+}
+
+.signup-role-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+}
+
+.signup-role-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.signup-role-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.signup-role-btn span {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.signup-role-btn small {
+  font-size: 0.7rem;
+  color: #64748b;
+}
+
+.signup-role-active {
+  border-color: #1e3a8a;
+  background: #eff6ff;
+}
+
+.signup-role-active span {
+  color: #1e3a8a;
+}
+
+.signup-role-active small {
+  color: #1e3a8a;
+}
