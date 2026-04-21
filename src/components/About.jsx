@@ -1,4 +1,4 @@
-import { Code2, Sparkles, Users, Brain, Briefcase, BookOpen, CheckCircle, Rocket } from 'lucide-react'
+import { Sparkles, Users, Brain, Briefcase, BookOpen, CheckCircle, Rocket } from 'lucide-react'
 
 const About = () => {
   return (
@@ -6,8 +6,12 @@ const About = () => {
       <div className="max-w-4xl mx-auto px-4">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-900 rounded-2xl mb-6">
-            <Code2 size={40} className="text-white" />
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-6 bg-transparent">
+            <img 
+              src="/logo.png" 
+              alt="ResuNest Logo" 
+              className="w-full h-full object-contain"
+            />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
             About ResuNest
