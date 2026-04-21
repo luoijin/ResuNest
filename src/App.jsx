@@ -3,6 +3,7 @@ import Layout from './components/layout/Layout'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
 import Dashboard from './components/features/Dashboard'
+<<<<<<< Updated upstream
 import ResumeInput from './components/ResumeInput'
 import JobCard from './components/JobCard'
 import SkillGapChart from './components/SkillGapChart'
@@ -17,10 +18,14 @@ import { mockLogin, mockLogout, getCurrentUser, isAuthenticated } from './utils/
 
 // Member 1's hook
 import { useResumeAnalysis } from './hooks/useResumeAnalysis'
+=======
+import FlipWrapper from './components/auth/FlipWrapper/FlipWrapper'
+>>>>>>> Stashed changes
 
 function App() {
   // Auth state (using your mock auth)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+<<<<<<< Updated upstream
   const [showLogin, setShowLogin] = useState(true)
   const [user, setUser] = useState(null)
   
@@ -74,6 +79,16 @@ function App() {
           onLogin={handleLogin}
           onSwitchToSignup={() => setShowLogin(false)} 
         />
+=======
+
+  return (
+    <Layout isLoggedIn={isLoggedIn} onLogout={() => setIsLoggedIn(false)}>
+      {!isLoggedIn ? (
+        <FlipWrapper>
+          <Login onLogin={() => setIsLoggedIn(true)} />
+          <Signup />
+        </FlipWrapper>
+>>>>>>> Stashed changes
       ) : (
         <Signup 
           onSwitchToLogin={() => setShowLogin(true)} 
