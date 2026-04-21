@@ -127,11 +127,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="footer-bottom">
-          <p className="footer-copyright">
-            <span>© 2026 University of Cebu Hackathon. Made with</span>
-            <Heart size={14} className="footer-heart" />
-            <span>by Team UC</span>
-          </p>
+          
           <div className="footer-legal">
             <a href="#" className="footer-legal-link">Privacy Policy</a>
             <a href="#" className="footer-legal-link">Terms of Service</a>
