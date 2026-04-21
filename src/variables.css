@@ -1,0 +1,17 @@
+:root {
+  /* Light Mode Base */
+  --color-bg-main: #ffffff;
+  --color-bg-secondary: #f8fafc;
+  
+  /* Navy Blue Accent Palette */
+  --color-navy: #1e3a8a;
+  --color-navy-light: #2563eb;
+  --color-navy-dark: #172554;
+  --color-navy-bg: #eff6ff;
+  --color-navy-border: #bfdbfe;
+  
+  /* Text */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+}

@@ -1,0 +1,18 @@
+@import './variables.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}

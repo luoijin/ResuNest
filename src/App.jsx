@@ -1,22 +1,31 @@
-// MEMBER 3 (Data/App) - Main Assembly 
-// This file manages global state, data flow, and component wiring 
-import { useState } from 'react' 
-// Import components (will be created by Member 2) 
-// import Header from './components/Layout/Header' 
-// import InputForm from './components/InputForm' 
-// import ResultDisplay from './components/ResultDisplay' 
- 
-function App() { 
-  const [data, setData] = useState(null) 
-  const [loading, setLoading] = useState(false) 
-  const [error, setError] = useState(null) 
- 
-  return ( 
-    <div className="min-h-screen bg-gray-50"> 
-      <h1>Hackathon 2026 - Ready</h1> 
-      <p>Waiting for challenge details...</p> 
-    </div> 
-  ) 
-} 
- 
-export default App 
+import { useState } from 'react'
+import Header from './components/Layout/Header'
+import Footer from './components/Layout/Footer'
+import Login from './components/Auth/Login'
+
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  return (
+    <div className="min-h-screen flex flex-col bg-white">
+      <Header isLoggedIn={isLoggedIn} onLogout={() => setIsLoggedIn(false)} />
+      <main className="flex-grow">
+        {!isLoggedIn ? (
+          <Login onLogin={() => setIsLoggedIn(true)} />
+        ) : (
+          <div className="container mx-auto px-6 py-12">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-slate-900 mb-4">
+                Welcome to Hackathon 2026
+              </h1>
+              <p className="text-blue-900 font-medium">Ready to build something amazing!</p>
+            </div>
+          </div>
+        )}
+      </main>
+      <Footer />
+    </div>
+  )
+}
+
+export default App

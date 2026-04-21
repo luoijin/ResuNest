@@ -1,0 +1,83 @@
+/* =========================================
+   FLIP CARD SYSTEM
+   ========================================= */
+
+.flip-card-inner {
+  display: grid;
+  grid-template-areas: "stack";
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  grid-area: stack;
+  position: relative;
+  width: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+.flip-card-inner.flipped .flip-card-back {
+  z-index: 10;
+}
+
+/* =========================================
+   AUTH COMPONENT (Login/Register)
+   ========================================= */
+
+.auth-card {
+  @apply bg-white rounded-2xl shadow-lg border border-blue-100 p-8;
+}
+
+.auth-input-wrapper {
+  @apply relative;
+}
+
+.auth-input {
+  @apply w-full pl-11 pr-4 py-3 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent;
+}
+
+.auth-input-password {
+  @apply pr-12;
+}
+
+.auth-input-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 text-slate-400;
+}
+
+.auth-toggle-pass {
+  @apply absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-900;
+}
+
+.auth-btn {
+  @apply w-full py-3 px-4 bg-blue-900 hover:bg-blue-800 text-white font-medium rounded-xl disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.auth-alert {
+  @apply mb-4 flex items-center space-x-2 p-3 rounded-xl text-sm border;
+}
+
+.auth-alert-error {
+  @apply bg-red-50 border-red-200 text-red-600;
+}
+
+.auth-alert-success {
+  @apply bg-green-50 border-green-200 text-green-600;
+}
+
+.auth-feature-card {
+  @apply flex items-center space-x-3 border border-blue-100 bg-white rounded-xl px-4 py-3;
+}
+
+.auth-feature-icon {
+  @apply w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center;
+}
