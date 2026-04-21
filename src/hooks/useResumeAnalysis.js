@@ -1,15 +1,19 @@
-// src/hooks/useResumeAnalysis.js
 import { useState } from 'react'
 import { extractSkillsWithGemini } from '../services/SkillExtractor'
 import { matchJobs } from '../services/jobMatcher'
 
-export const useResumeAnalysis = (jobsDataset) => {
+export const useResumeAnalysis = (hardcodedJobs) => {
   const [extractedSkills, setExtractedSkills] = useState([])
   const [matches, setMatches] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [filters, setFilters] = useState({
+    searchTerm: '',
+    remoteOnly: false,
+    minSalary: 'any'
+  })
 
-  const analyzeResume = async (resumeText) => {
+  const analyzeResume = async (resumeText, userProfile = {}) => {
     setIsLoading(true)
     setError(null)
     
@@ -18,12 +22,18 @@ export const useResumeAnalysis = (jobsDataset) => {
       const skills = await extractSkillsWithGemini(resumeText)
       setExtractedSkills(skills)
       
-      // Match against jobs
-      const matchResults = matchJobs(skills, jobsDataset)
+      // Combine user skills with profile preferences
+      const allUserSkills = [...skills]
+      if (userProfile.languages) allUserSkills.push(...userProfile.languages)
+      if (userProfile.additionalSkills) allUserSkills.push(...userProfile.additionalSkills)
+      
+      // Match against combined job pool with filters
+      const matchResults = matchJobs([...new Set(allUserSkills)], hardcodedJobs, filters)
       setMatches(matchResults)
       
       return { skills, matches: matchResults }
     } catch (err) {
+      console.error('Analysis failed:', err)
       setError(err.message)
       return { skills: [], matches: [] }
     } finally {
@@ -31,11 +41,17 @@ export const useResumeAnalysis = (jobsDataset) => {
     }
   }
 
+  const updateFilters = (newFilters) => {
+    setFilters(prev => ({ ...prev, ...newFilters }))
+  }
+
   return {
     extractedSkills,
     matches,
     isLoading,
     error,
-    analyzeResume
+    filters,
+    analyzeResume,
+    updateFilters
   }
 }
