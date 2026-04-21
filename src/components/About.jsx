@@ -84,19 +84,12 @@ const About = () => {
         </div>
 
         {/* Hackathon Info */}
-        <div className="bg-gradient-to-r from-blue-900 to-blue-800 rounded-2xl shadow-lg p-8 mb-8 text-white text-center">
-          <Rocket size={40} className="mx-auto mb-4 opacity-80" />
-          <h2 className="text-2xl font-bold mb-2">University of Cebu Hackathon 2026</h2>
-          <p className="text-blue-200 mb-4">8-Hour Sprint | 3-Person Team</p>
-          <p className="text-blue-100">
-            Built with passion for the future of work
-          </p>
-        </div>
+        
 
         {/* Footer Note */}
         <div className="text-center text-slate-400 text-sm">
           <p>© 2026 ResuNest. All rights reserved.</p>
-          <p className="mt-1">Made with ❤️ for University of Cebu Hackathon</p>
+          
         </div>
       </div>
     </div>
