@@ -126,7 +126,7 @@ function App() {
           <div className="flex flex-col items-center justify-center min-h-[75vh]">
             <div className="text-center max-w-2xl mx-auto mb-10">
               <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
-                Bridge the Gap to Your <span className="text-blue-600">Dream Career</span>
+                Bridge the Gap to Your <br /><span className="text-blue-600">Dream Career</span>
               </h1>
               <div className="relative">
                 <span className="absolute -top-4 -left-4 text-4xl text-blue-200 font-serif">"</span>
