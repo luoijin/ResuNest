@@ -1,4 +1,4 @@
-// Learning resource mappings
+// learning resource mappings
 const RESOURCE_MAP = {
   'python': { platform: 'Python.org', url: 'https://docs.python.org/3/tutorial/' },
   'javascript': { platform: 'MDN Web Docs', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript' },
