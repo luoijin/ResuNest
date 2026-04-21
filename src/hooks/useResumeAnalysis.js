@@ -1,39 +1,28 @@
 import { useState } from 'react'
-import { extractSkillsWithGemini } from '../services/SkillExtractor'
-import { matchJobs } from '../services/jobMatcher'
+import { extractSkillsWithGemini, processPDFResume } from '../services/SkillExtractor'
+import { getAllJobs, matchJobs } from '../services/jobMatcher'
 
-export const useResumeAnalysis = (hardcodedJobs) => {
+export const useResumeAnalysis = (jobsDataset) => {
   const [extractedSkills, setExtractedSkills] = useState([])
   const [matches, setMatches] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [filters, setFilters] = useState({
-    searchTerm: '',
-    remoteOnly: false,
-    minSalary: 'any'
-  })
+  const [uploadedFileName, setUploadedFileName] = useState(null)
 
-  const analyzeResume = async (resumeText, userProfile = {}) => {
+  const analyzeResume = async (resumeText) => {
     setIsLoading(true)
     setError(null)
     
     try {
-      // Extract skills using Gemini (or fallback)
+      const allJobs = getAllJobs()
       const skills = await extractSkillsWithGemini(resumeText)
       setExtractedSkills(skills)
       
-      // Combine user skills with profile preferences
-      const allUserSkills = [...skills]
-      if (userProfile.languages) allUserSkills.push(...userProfile.languages)
-      if (userProfile.additionalSkills) allUserSkills.push(...userProfile.additionalSkills)
-      
-      // Match against combined job pool with filters
-      const matchResults = matchJobs([...new Set(allUserSkills)], hardcodedJobs, filters)
+      const matchResults = matchJobs(skills, allJobs)
       setMatches(matchResults)
       
       return { skills, matches: matchResults }
     } catch (err) {
-      console.error('Analysis failed:', err)
       setError(err.message)
       return { skills: [], matches: [] }
     } finally {
@@ -41,8 +30,36 @@ export const useResumeAnalysis = (hardcodedJobs) => {
     }
   }
 
-  const updateFilters = (newFilters) => {
-    setFilters(prev => ({ ...prev, ...newFilters }))
+  const analyzePDFResume = async (file) => {
+    setIsLoading(true)
+    setError(null)
+    setUploadedFileName(file.name)
+    
+    try {
+      const result = await processPDFResume(file, true)
+      
+      if (!result.success) {
+        setError(result.error)
+        return { skills: [], matches: [] }
+      }
+      
+      const allJobs = getAllJobs()
+      setExtractedSkills(result.skills)
+      
+      const matchResults = matchJobs(result.skills, allJobs)
+      setMatches(matchResults)
+      
+      return { 
+        skills: result.skills, 
+        matches: matchResults,
+        extractedText: result.text 
+      }
+    } catch (err) {
+      setError(err.message)
+      return { skills: [], matches: [] }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return {
@@ -50,8 +67,8 @@ export const useResumeAnalysis = (hardcodedJobs) => {
     matches,
     isLoading,
     error,
-    filters,
+    uploadedFileName,
     analyzeResume,
-    updateFilters
+    analyzePDFResume
   }
 }

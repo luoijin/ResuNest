@@ -20,7 +20,7 @@ function App() {
   const [showResults, setShowResults] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
   const [currentPage, setCurrentPage] = useState('home')
-  const { extractedSkills, matches, isLoading, analyzeResume } = useResumeAnalysis(jobsDataset)
+  const { extractedSkills, matches, isLoading, analyzeResume, analyzePDFResume } = useResumeAnalysis(jobsDataset)
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -65,6 +65,14 @@ function App() {
     setSelectedJob(null)
   }
 
+  const handlePDFUpload = async (file) => {
+    const result = await analyzePDFResume(file)
+    if (result.skills && result.skills.length > 0) {
+      setShowResults(true)
+      setSelectedJob(null)
+    }
+  }
+
   const handleSelectJob = (job) => setSelectedJob(job)
   const handleBackToResults = () => setSelectedJob(null)
   
@@ -103,7 +111,13 @@ function App() {
 
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {!showResults && <ResumeInput onSubmit={handleResumeSubmit} isLoading={isLoading} />}
+        {!showResults && (
+          <ResumeInput 
+            onSubmit={handleResumeSubmit} 
+            isLoading={isLoading}
+            onPDFUpload={handlePDFUpload}
+          />
+        )}
 
         {showResults && !selectedJob && (
           <>
@@ -179,4 +193,4 @@ function App() {
   )
 }
 
-export default App
+export default App  // ← MAKE SURE THIS LINE EXISTS
