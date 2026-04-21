@@ -15,11 +15,13 @@ const Login = ({ onLogin, onSwitchToSignup }) => {
     setIsLoading(true)
 
     setTimeout(() => {
+      // Check if users exist in localStorage
       const users = JSON.parse(localStorage.getItem('uc_hackathon_users') || '[]')
       const user = users.find(u => u.email === loginEmail && u.password === loginPassword)
       
       if (user) {
-        onLogin()
+        // Pass the email to onLogin
+        onLogin(loginEmail)
       } else {
         setError('Invalid email or password')
       }
@@ -28,10 +30,12 @@ const Login = ({ onLogin, onSwitchToSignup }) => {
   }
 
   return (
-    <div className="flip-front-content">
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
+          <div className="login-icon-wrapper">
+            <LogIn className="login-icon" size={24} />
+          </div>
           <h2 className="login-title">Welcome Back</h2>
           <p className="login-subtitle">
             Don't have an account?
@@ -94,7 +98,6 @@ const Login = ({ onLogin, onSwitchToSignup }) => {
           </button>
         </form>
       </div>
-    </div>
     </div>
   )
 }
