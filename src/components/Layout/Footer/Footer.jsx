@@ -33,7 +33,7 @@ const Footer = () => {
                 <Code2 className="footer-logo-svg" size={20} />
               </div>
               <div>
-                <span className="footer-logo-title">Hackathon</span>
+                <span className="footer-logo-title">ResuNet</span>
                 <span className="footer-logo-subtitle">2026</span>
               </div>
             </div>
@@ -96,7 +96,19 @@ const Footer = () => {
               <li>
                 <a href="mailto:team@hackathon2026.com" className="footer-contact-link">
                   <Mail size={16} className="footer-contact-icon" />
-                  <span>team@hackathon2026.com</span>
+                  <span>aloraine.cs@gmail.com</span>
+                </a>
+              </li>
+              <li>
+                <a href="mailto:team@hackathon2026.com" className="footer-contact-link">
+                  <Mail size={16} className="footer-contact-icon" />
+                  <span>ninobacalso@gmail.com</span>
+                </a>
+              </li>
+              <li>
+                <a href="mailto:team@hackathon2026.com" className="footer-contact-link">
+                  <Mail size={16} className="footer-contact-icon" />
+                  <span>janninobansag@gmail.com</span>
                 </a>
               </li>
               <li>
