@@ -1,0 +1,156 @@
+.auth-wrapper {
+  min-height: 100vh;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+}
+
+@media (min-width: 1024px) {
+  .auth-wrapper {
+    padding: 3rem 2rem;
+  }
+}
+
+.auth-info {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .auth-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 50%;
+    max-width: 28rem;
+  }
+}
+
+.auth-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.auth-badge-line {
+  width: 3rem;
+  height: 0.25rem;
+  background: #1e3a8a;
+  border-radius: 9999px;
+}
+
+.auth-badge-text {
+  color: #1e3a8a;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.auth-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.auth-description {
+  margin-top: 1rem;
+  color: #64748b;
+  font-size: 1.125rem;
+  max-width: 28rem;
+}
+
+.auth-features {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.auth-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.auth-feature-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: white;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.auth-feature span {
+  color: #334155;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.auth-form-container {
+  width: 100%;
+  max-width: 28rem;
+}
+
+@media (min-width: 1024px) {
+  .auth-form-container {
+    width: 50%;
+  }
+}
+
+/* Flip Card System */
+.flip-card-inner {
+  display: grid;
+  grid-template-areas: "stack";
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  grid-area: stack;
+  position: relative;
+  width: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+.flip-card-inner.flipped .flip-card-back {
+  z-index: 10;
+}
+
+/* Auth Features */
+.auth-feature-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid #dbeafe;
+  background: white;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.auth-feature-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: #eff6ff;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
