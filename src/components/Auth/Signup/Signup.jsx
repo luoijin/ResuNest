@@ -132,30 +132,7 @@ const Signup = ({ onSwitchToLogin, onSignup }) => {
             />
           </div>
 
-          {/* Role Selection */}
-          <div className="signup-role-section">
-            <label className="signup-role-label">I want to:</label>
-            <div className="signup-role-options">
-              <button
-                type="button"
-                onClick={() => setRole('freelancer')}
-                className={`signup-role-btn ${role === 'freelancer' ? 'signup-role-active' : ''}`}
-              >
-                <Users size={18} />
-                <span>Find Jobs</span>
-                <small>Freelancer</small>
-              </button>
-              <button
-                type="button"
-                onClick={() => setRole('client')}
-                className={`signup-role-btn ${role === 'client' ? 'signup-role-active' : ''}`}
-              >
-                <Briefcase size={18} />
-                <span>Post Jobs</span>
-                <small>Client</small>
-              </button>
-            </div>
-          </div>
+         
 
           <button type="submit" disabled={isLoading} className="signup-btn">
             <span className="signup-btn-content">

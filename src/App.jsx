@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react'
 import Layout from './components/layout/Layout'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
-// import Dashboard from './components/features/Dashboard'  // COMMENTED OUT - NOT CREATED YET
 import FlipWrapper from './components/auth/FlipWrapper/FlipWrapper'
 import ResumeInput from './components/ResumeInput'
 import JobCard from './components/JobCard'
 import SkillGapChart from './components/SkillGapChart'
 import Recommendations from './components/Recommendations'
+import About from './components/About'
 import { jobsDataset } from './data/jobsDataset'
 import { learningMap } from './data/learningMap'
 import { mockLogin, mockLogout, getCurrentUser, isAuthenticated } from './utils/auth'
 import { useResumeAnalysis } from './hooks/useResumeAnalysis'
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -19,6 +20,7 @@ function App() {
   const [user, setUser] = useState(null)
   const [showResults, setShowResults] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
+  const [currentPage, setCurrentPage] = useState('home')
   const { extractedSkills, matches, isLoading, analyzeResume } = useResumeAnalysis(jobsDataset)
 
   useEffect(() => {
@@ -32,6 +34,7 @@ function App() {
     if (mockLogin(email)) {
       setUser(email)
       setIsLoggedIn(true)
+      setCurrentPage('dashboard')
     }
   }
 
@@ -41,6 +44,7 @@ function App() {
     setIsLoggedIn(false)
     setShowResults(false)
     setSelectedJob(null)
+    setCurrentPage('home')
   }
 
   const handleResumeSubmit = async (resumeText) => {
@@ -51,8 +55,34 @@ function App() {
 
   const handleSelectJob = (job) => setSelectedJob(job)
   const handleBackToResults = () => setSelectedJob(null)
+  
+  const handleNavigate = (page) => {
+    setCurrentPage(page)
+    if (page !== 'dashboard') {
+      setShowResults(false)
+      setSelectedJob(null)
+    }
+  }
 
   const renderContent = () => {
+    // About Page
+    if (currentPage === 'about') {
+      return <About />
+    }
+
+    // Features Page
+    if (currentPage === 'features') {
+      return (
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-slate-900 mb-4">Features</h1>
+            <p className="text-slate-600">Coming soon! More features are being developed.</p>
+          </div>
+        </div>
+      )
+    }
+
+    // Not logged in - show auth
     if (!isLoggedIn) {
       return (
         <FlipWrapper>
@@ -62,7 +92,7 @@ function App() {
       )
     }
 
-    // Logged in - show resume analysis flow (temporary Dashboard replacement)
+    // Logged in - show resume analysis flow
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
         {!showResults && <ResumeInput onSubmit={handleResumeSubmit} isLoading={isLoading} />}
@@ -135,7 +165,7 @@ function App() {
   }
 
   return (
-    <Layout isLoggedIn={isLoggedIn} onLogout={handleLogout}>
+    <Layout isLoggedIn={isLoggedIn} onLogout={handleLogout} onNavigate={handleNavigate}>
       {renderContent()}
     </Layout>
   )
