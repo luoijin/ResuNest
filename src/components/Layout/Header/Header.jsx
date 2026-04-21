@@ -2,7 +2,17 @@ import { useState, useEffect, useRef } from 'react'
 import { Menu, X, Code2, Home, Sparkles, Users, LogOut, ChevronDown } from 'lucide-react'
 import './Header.css'
 
-const Header = ({ isLoggedIn, onLogout }) => {
+const handleNavClick = (link) => {
+  console.log('Button clicked:', link.name, 'page:', link.page)
+  console.log('onNavigate function exists:', typeof onNavigate)
+  setActiveLink(link.name)
+  if (onNavigate) {
+    onNavigate(link.page)
+  } else {
+    console.error('onNavigate is undefined!')
+  }
+}
+const Header = ({ isLoggedIn, onLogout, onNavigate }) => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
@@ -27,20 +37,27 @@ const Header = ({ isLoggedIn, onLogout }) => {
   }, [])
 
   const navLinks = [
-    { name: 'Home', icon: Home },
-    { name: 'Features', icon: Sparkles },
-    { name: 'About', icon: Users },
+    { name: 'Home', icon: Home, page: 'home' },
+    { name: 'Features', icon: Sparkles, page: 'features' },
+    { name: 'About', icon: Users, page: 'about' },
   ]
+
+  const handleNavClick = (link) => {
+    setActiveLink(link.name)
+    if (onNavigate) {
+      onNavigate(link.page)
+    }
+  }
 
   return (
     <header className={`header ${isScrolled ? 'header-scrolled' : ''}`}>
       <nav className="header-nav">
-        <div className="header-logo">
+        <div className="header-logo" onClick={() => onNavigate && onNavigate('home')} style={{ cursor: 'pointer' }}>
           <div className="header-logo-icon">
             <Code2 className="header-logo-icon-svg" size={20} />
           </div>
           <div className="header-logo-text">
-            <span className="header-logo-title">Hackathon</span>
+            <span className="header-logo-title">ResuNest</span>
             <span className="header-logo-subtitle">2026</span>
           </div>
         </div>
@@ -52,7 +69,7 @@ const Header = ({ isLoggedIn, onLogout }) => {
             return (
               <button
                 key={link.name}
-                onClick={() => setActiveLink(link.name)}
+                onClick={() => handleNavClick(link)}
                 className={`header-nav-link ${isActive ? 'header-nav-link-active' : ''}`}
               >
                 <Icon size={16} />
@@ -113,7 +130,7 @@ const Header = ({ isLoggedIn, onLogout }) => {
               <button
                 key={link.name}
                 onClick={() => {
-                  setActiveLink(link.name)
+                  handleNavClick(link)
                   setIsMobileMenuOpen(false)
                 }}
                 className={`header-mobile-link ${activeLink === link.name ? 'header-mobile-link-active' : ''}`}
