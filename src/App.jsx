@@ -59,8 +59,17 @@ function App() {
     setCurrentPage('home')
   }
 
-  const handleResumeSubmit = async (resumeText) => {
-    await analyzeResume(resumeText)
+  const handleResumeSubmit = async (submission) => {
+    // This safely handles both the raw string submission AND the new tabbed object submission
+    if (typeof submission === 'string') {
+      await analyzeResume(submission)
+    } else if (submission?.type === 'text') {
+      await analyzeResume(submission.payload)
+    } else if (submission?.type === 'skills') {
+      await analyzeResume(submission.payload.skills, { 
+        experienceLevel: submission.payload.experienceLevel 
+      })
+    }
     setShowResults(true)
     setSelectedJob(null)
   }
@@ -111,29 +120,57 @@ function App() {
 
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
+        
+        {/* New Centered Hero Section */}
         {!showResults && (
-          <ResumeInput 
-            onSubmit={handleResumeSubmit} 
-            isLoading={isLoading}
-            onPDFUpload={handlePDFUpload}
-          />
+          <div className="flex flex-col items-center justify-center min-h-[75vh]">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
+                Bridge the Gap to Your <span className="text-blue-600">Dream Career</span>
+              </h1>
+              <div className="relative">
+                <span className="absolute -top-4 -left-4 text-4xl text-blue-200 font-serif">"</span>
+                <p className="text-lg text-slate-600 italic px-6">
+                  Success is where preparation and opportunity meet. Paste your resume or list your skills, and let AI uncover your next big opportunity.
+                </p>
+                <span className="absolute -bottom-4 -right-2 text-4xl text-blue-200 font-serif">"</span>
+              </div>
+            </div>
+            
+            <div className="w-full max-w-3xl">
+              <ResumeInput 
+                onSubmit={handleResumeSubmit} 
+                isLoading={isLoading}
+                onPDFUpload={handlePDFUpload}
+              />
+            </div>
+          </div>
         )}
 
+        {/* Results Section */}
         {showResults && !selectedJob && (
-          <>
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-              <h2 className="font-semibold text-green-800">Extracted Skills:</h2>
-              <div className="flex flex-wrap gap-2 mt-2">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="mb-8 p-5 bg-green-50 border border-green-200 rounded-xl shadow-sm">
+              <div className="flex justify-between items-center mb-3">
+                <h2 className="font-semibold text-green-800">Extracted Skills:</h2>
+                <button 
+                  onClick={() => setShowResults(false)}
+                  className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors bg-white px-3 py-1.5 rounded-lg border border-blue-100 shadow-sm"
+                >
+                  Analyze Another
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2">
                 {extractedSkills.map(skill => (
-                  <span key={skill} className="px-2 py-1 bg-green-100 text-green-700 rounded text-sm">
+                  <span key={skill} className="px-3 py-1.5 bg-green-100 border border-green-200 text-green-800 rounded-lg text-sm font-medium">
                     {skill}
                   </span>
                 ))}
               </div>
             </div>
 
-            <h2 className="text-xl font-bold mb-4">Top Job Matches</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <h2 className="text-2xl font-bold mb-6 text-slate-800">Top Job Matches</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {matches.map(job => (
                 <JobCard 
                   key={job.id} 
@@ -144,42 +181,46 @@ function App() {
                 />
               ))}
             </div>
-          </>
+          </div>
         )}
 
+        {/* Job Details Section */}
         {showResults && selectedJob && (
-          <>
+          <div className="animate-in fade-in duration-300">
             <button 
               onClick={handleBackToResults}
-              className="mb-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+              className="mb-6 px-4 py-2 bg-slate-100 text-slate-700 font-medium rounded-lg hover:bg-slate-200 transition-colors flex items-center gap-2"
             >
               ← Back to all jobs
             </button>
 
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-2xl font-bold mb-2">{selectedJob.job_title}</h2>
-              <div className="mb-4">
-                <span className="text-lg font-semibold">Match Score: </span>
-                <span className="text-blue-600 font-bold">{selectedJob.matchScore}%</span>
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 md:p-8">
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">{selectedJob.job_title}</h2>
+              <div className="mb-8 flex items-center gap-3">
+                <span className="text-lg font-semibold text-slate-600">Match Score: </span>
+                <span className="text-2xl text-blue-600 font-bold bg-blue-50 px-3 py-1 rounded-lg">{selectedJob.matchScore}%</span>
               </div>
 
-              <SkillGapChart 
-                missingSkills={selectedJob.missingSkills} 
-                jobTitle={selectedJob.job_title}
-              />
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                <SkillGapChart 
+                  missingSkills={selectedJob.missingSkills} 
+                  jobTitle={selectedJob.job_title}
+                />
 
-              <Recommendations 
-                missingSkills={selectedJob.missingSkills} 
-                learningMap={learningMap}
-              />
+                <Recommendations 
+                  missingSkills={selectedJob.missingSkills} 
+                  learningMap={learningMap}
+                />
+              </div>
             </div>
-          </>
+          </div>
         )}
 
         {isLoading && (
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            <p className="mt-2 text-gray-600">Analyzing your resume with AI...</p>
+          <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-200 border-b-blue-600 mb-4"></div>
+            <p className="text-lg font-medium text-slate-800">Analyzing with AI...</p>
+            <p className="text-sm text-slate-500 mt-2">Extracting skills and finding the perfect match</p>
           </div>
         )}
       </div>
@@ -193,4 +234,4 @@ function App() {
   )
 }
 
-export default App  // ← MAKE SURE THIS LINE EXISTS
+export default App
