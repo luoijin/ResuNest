@@ -1,107 +1,101 @@
-import { useState } from 'react';
-import { useResumeAnalysis } from './hooks/useResumeAnalysis';
-import { jobsDataset } from './data/jobsDataset';
-import { learningMap } from './data/learningMap';
-import { isAuthenticated, mockLogin, mockLogout, getCurrentUser } from './utils/auth';
+import { useState, useEffect } from 'react'
+import Layout from './components/layout/Layout'
+import Login from './components/auth/Login'
+import Signup from './components/auth/Signup'
+import Dashboard from './components/features/Dashboard'
+import ResumeInput from './components/ResumeInput'
+import JobCard from './components/JobCard'
+import SkillGapChart from './components/SkillGapChart'
+import Recommendations from './components/Recommendations'
 
-// Import components (Member 2 will create these)
-import LandingPage from './components/LandingPage';
-import Login from './components/Login';
-import ResumeInput from './components/ResumeInput';
-import JobCard from './components/JobCard';
-import SkillGapChart from './components/SkillGapChart';
-import Recommendations from './components/Recommendations';
+// Your data files (Member 3)
+import { jobsDataset } from './data/jobsDataset'
+import { learningMap } from './data/learningMap'
+
+// Your auth utils (Member 3)
+import { mockLogin, mockLogout, getCurrentUser, isAuthenticated } from './utils/auth'
+
+// Member 1's hook
+import { useResumeAnalysis } from './hooks/useResumeAnalysis'
 
 function App() {
-  // State management
-  const [currentView, setCurrentView] = useState('landing'); // 'landing', 'login', 'dashboard'
-  const [user, setUser] = useState(null);
-  const [showResults, setShowResults] = useState(false);
-  const [selectedJob, setSelectedJob] = useState(null);
+  // Auth state (using your mock auth)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [showLogin, setShowLogin] = useState(true)
+  const [user, setUser] = useState(null)
   
-  // Hook from Member 1
-  const { extractedSkills, matches, isLoading, analyzeResume } = useResumeAnalysis(jobsDataset);
+  // Resume analysis state
+  const [showResults, setShowResults] = useState(false)
+  const [selectedJob, setSelectedJob] = useState(null)
   
-  // Check auth on mount
-  useState(() => {
+  // Member 1's hook
+  const { extractedSkills, matches, isLoading, analyzeResume } = useResumeAnalysis(jobsDataset)
+  
+  // Check for existing session on mount
+  useEffect(() => {
     if (isAuthenticated()) {
-      setUser(getCurrentUser());
-      setCurrentView('dashboard');
+      const currentUser = getCurrentUser()
+      setUser(currentUser)
+      setIsLoggedIn(true)
     }
-  }, []);
+  }, [])
   
-  // Handlers
-  const handleGetStarted = () => {
-    setCurrentView('login');
-  };
-  
+  // Handlers for auth (using your mock auth)
   const handleLogin = (email) => {
     if (mockLogin(email)) {
-      setUser(email);
-      setCurrentView('dashboard');
+      setUser(email)
+      setIsLoggedIn(true)
     }
-  };
+  }
   
   const handleLogout = () => {
-    mockLogout();
-    setUser(null);
-    setShowResults(false);
-    setSelectedJob(null);
-    setCurrentView('landing');
-  };
+    mockLogout()
+    setUser(null)
+    setIsLoggedIn(false)
+    setShowResults(false)
+    setSelectedJob(null)
+  }
   
+  // Resume analysis handler
   const handleResumeSubmit = async (resumeText) => {
-    await analyzeResume(resumeText);
-    setShowResults(true);
-    setSelectedJob(null);
-  };
-  
-  const handleSelectJob = (job) => {
-    setSelectedJob(job);
-  };
-  
-  const handleBackToResults = () => {
-    setSelectedJob(null);
-  };
-  
-  // Render based on current view
-  if (currentView === 'landing') {
-    return <LandingPage onGetStarted={handleGetStarted} />;
+    await analyzeResume(resumeText)
+    setShowResults(true)
+    setSelectedJob(null)
   }
   
-  if (currentView === 'login') {
-    return <Login onLogin={handleLogin} />;
-  }
+  const handleSelectJob = (job) => setSelectedJob(job)
+  const handleBackToResults = () => setSelectedJob(null)
   
-  // Dashboard view (logged in)
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header with logout */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-600">ResuNest</h1>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">{user}</span>
-            <button 
-              onClick={handleLogout}
-              className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </header>
-      
-      <main className="max-w-7xl mx-auto px-4 py-8">
+  // If logged in, show either Resume Input or Results
+  const renderContent = () => {
+    if (!isLoggedIn) {
+      return showLogin ? (
+        <Login 
+          onLogin={handleLogin}
+          onSwitchToSignup={() => setShowLogin(false)} 
+        />
+      ) : (
+        <Signup 
+          onSwitchToLogin={() => setShowLogin(true)} 
+        />
+      )
+    }
+    
+    // Logged in - show resume analysis flow
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Show input if no results yet */}
         {!showResults && (
-          <ResumeInput onTextSubmit={handleResumeSubmit} isLoading={isLoading} />
+          <ResumeInput 
+            onSubmit={handleResumeSubmit} 
+            isLoading={isLoading} 
+          />
         )}
         
-        {/* Show results */}
+        {/* Show results grid */}
         {showResults && !selectedJob && (
-          <div>
-            {/* Extracted skills summary */}
+          <>
+            {/* Extracted skills badges */}
             <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
               <h2 className="font-semibold text-green-800">Extracted Skills:</h2>
               <div className="flex flex-wrap gap-2 mt-2">
@@ -113,7 +107,7 @@ function App() {
               </div>
             </div>
             
-            {/* Job matches grid */}
+            {/* Job matches */}
             <h2 className="text-xl font-bold mb-4">Top Job Matches</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {matches.map(job => (
@@ -126,12 +120,12 @@ function App() {
                 />
               ))}
             </div>
-          </div>
+          </>
         )}
         
-        {/* Show detailed view for selected job */}
+        {/* Detailed view for selected job */}
         {showResults && selectedJob && (
-          <div>
+          <>
             <button 
               onClick={handleBackToResults}
               className="mb-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
@@ -156,7 +150,7 @@ function App() {
                 learningMap={learningMap}
               />
             </div>
-          </div>
+          </>
         )}
         
         {/* Loading state */}
@@ -166,9 +160,15 @@ function App() {
             <p className="mt-2 text-gray-600">Analyzing your resume with AI...</p>
           </div>
         )}
-      </main>
-    </div>
-  );
+      </div>
+    )
+  }
+  
+  return (
+    <Layout isLoggedIn={isLoggedIn} onLogout={handleLogout}>
+      {renderContent()}
+    </Layout>
+  )
 }
 
-export default App;
+export default App
