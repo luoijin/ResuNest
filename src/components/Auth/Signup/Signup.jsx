@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Mail, Lock, Eye, EyeOff, UserPlus, ArrowLeft, User, AlertCircle, CheckCircle, Briefcase, Users } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, UserPlus, ArrowLeft, User, AlertCircle, CheckCircle } from 'lucide-react'
 import './Signup.css'
 
 const Signup = ({ onSwitchToLogin, onSignup }) => {
@@ -7,7 +7,6 @@ const Signup = ({ onSwitchToLogin, onSignup }) => {
   const [regEmail, setRegEmail] = useState('')
   const [regPassword, setRegPassword] = useState('')
   const [regConfirmPassword, setRegConfirmPassword] = useState('')
-  const [role, setRole] = useState('freelancer') // 'freelancer' or 'client'
   const [showRegPass, setShowRegPass] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -30,10 +29,10 @@ const Signup = ({ onSwitchToLogin, onSignup }) => {
         return
       }
 
-      const result = onSignup(regName, regEmail, regPassword, role)
+      const result = onSignup(regName, regEmail, regPassword)
       
       if (result.success) {
-        setSuccess(`Account created successfully! You can now sign in as a ${role}.`)
+        setSuccess('Account created successfully! You can now sign in.')
         setError('')
         setIsLoading(false)
         
@@ -131,8 +130,6 @@ const Signup = ({ onSwitchToLogin, onSignup }) => {
               placeholder="Confirm password" 
             />
           </div>
-
-         
 
           <button type="submit" disabled={isLoading} className="signup-btn">
             <span className="signup-btn-content">

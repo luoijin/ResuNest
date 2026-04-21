@@ -13,7 +13,6 @@ import { learningMap } from './data/learningMap'
 import { mockLogin, mockLogout, getCurrentUser, isAuthenticated } from './utils/auth'
 import { useResumeAnalysis } from './hooks/useResumeAnalysis'
 
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [showLogin, setShowLogin] = useState(true)
@@ -36,6 +35,19 @@ function App() {
       setIsLoggedIn(true)
       setCurrentPage('dashboard')
     }
+  }
+
+  const handleSignup = (name, email, password) => {
+    const users = JSON.parse(localStorage.getItem('uc_hackathon_users') || '[]')
+    
+    if (users.find(u => u.email === email)) {
+      return { success: false, error: 'An account with this email already exists' }
+    }
+    
+    users.push({ name, email, password })
+    localStorage.setItem('uc_hackathon_users', JSON.stringify(users))
+    
+    return { success: true }
   }
 
   const handleLogout = () => {
@@ -65,12 +77,10 @@ function App() {
   }
 
   const renderContent = () => {
-    // About Page
     if (currentPage === 'about') {
       return <About />
     }
 
-    // Features Page
     if (currentPage === 'features') {
       return (
         <div className="max-w-4xl mx-auto px-4 py-12">
@@ -82,17 +92,15 @@ function App() {
       )
     }
 
-    // Not logged in - show auth
     if (!isLoggedIn) {
       return (
         <FlipWrapper>
           <Login onLogin={handleLogin} />
-          <Signup />
+          <Signup onSwitchToLogin={() => setShowLogin(true)} onSignup={handleSignup} />
         </FlipWrapper>
       )
     }
 
-    // Logged in - show resume analysis flow
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
         {!showResults && <ResumeInput onSubmit={handleResumeSubmit} isLoading={isLoading} />}
