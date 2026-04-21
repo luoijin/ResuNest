@@ -1,0 +1,35 @@
+.flip-wrapper {
+  perspective: 1000px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.flip-wrapper-inner {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-wrapper-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-wrapper-front,
+.flip-wrapper-back {
+  position: relative;
+  width: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-wrapper-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotateY(180deg);
+}
