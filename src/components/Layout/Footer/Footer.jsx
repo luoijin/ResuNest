@@ -1,4 +1,4 @@
-import { Code2, Code, MessageCircle, Briefcase, Mail, Heart, MapPin, Phone } from 'lucide-react'
+import { Code, MessageCircle, Briefcase, Mail, Heart, MapPin, Phone } from 'lucide-react'
 import './Footer.css'
 
 const Footer = () => {
@@ -30,10 +30,14 @@ const Footer = () => {
           <div className="footer-brand">
             <div className="footer-logo">
               <div className="footer-logo-icon">
-                <Code2 className="footer-logo-svg" size={20} />
+                <img 
+                  src="/logo.png" 
+                  alt="ResuNest Logo" 
+                  className="footer-logo-image"
+                />
               </div>
               <div>
-                <span className="footer-logo-title">ResuNet</span>
+                <span className="footer-logo-title">ResuNest</span>
                 <span className="footer-logo-subtitle">2026</span>
               </div>
             </div>
@@ -94,19 +98,19 @@ const Footer = () => {
                 <span>University of Cebu, Cebu City, Philippines</span>
               </li>
               <li>
-                <a href="mailto:team@hackathon2026.com" className="footer-contact-link">
+                <a href="mailto:aloraine.cs@gmail.com" className="footer-contact-link">
                   <Mail size={16} className="footer-contact-icon" />
                   <span>aloraine.cs@gmail.com</span>
                 </a>
               </li>
               <li>
-                <a href="mailto:team@hackathon2026.com" className="footer-contact-link">
+                <a href="mailto:ninobacalso@gmail.com" className="footer-contact-link">
                   <Mail size={16} className="footer-contact-icon" />
                   <span>ninobacalso@gmail.com</span>
                 </a>
               </li>
               <li>
-                <a href="mailto:team@hackathon2026.com" className="footer-contact-link">
+                <a href="mailto:janninobansag@gmail.com" className="footer-contact-link">
                   <Mail size={16} className="footer-contact-icon" />
                   <span>janninobansag@gmail.com</span>
                 </a>

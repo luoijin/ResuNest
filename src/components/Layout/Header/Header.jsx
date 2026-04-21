@@ -1,17 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
-import { Menu, X, Code2, Home, Sparkles, Users, LogOut, ChevronDown } from 'lucide-react'
+import { Menu, X, Home, Users, LogOut, ChevronDown } from 'lucide-react'
 import './Header.css'
 
-const handleNavClick = (link) => {
-  console.log('Button clicked:', link.name, 'page:', link.page)
-  console.log('onNavigate function exists:', typeof onNavigate)
-  setActiveLink(link.name)
-  if (onNavigate) {
-    onNavigate(link.page)
-  } else {
-    console.error('onNavigate is undefined!')
-  }
-}
 const Header = ({ isLoggedIn, onLogout, onNavigate }) => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -38,7 +28,6 @@ const Header = ({ isLoggedIn, onLogout, onNavigate }) => {
 
   const navLinks = [
     { name: 'Home', icon: Home, page: 'home' },
-    { name: 'Features', icon: Sparkles, page: 'features' },
     { name: 'About', icon: Users, page: 'about' },
   ]
 
@@ -54,11 +43,14 @@ const Header = ({ isLoggedIn, onLogout, onNavigate }) => {
       <nav className="header-nav">
         <div className="header-logo" onClick={() => onNavigate && onNavigate('home')} style={{ cursor: 'pointer' }}>
           <div className="header-logo-icon">
-            <Code2 className="header-logo-icon-svg" size={20} />
+            <img 
+              src="/logo.png" 
+              alt="ResuNest Logo" 
+              className="header-logo-image"
+            />
           </div>
           <div className="header-logo-text">
             <span className="header-logo-title">ResuNest</span>
-            <span className="header-logo-subtitle">2026</span>
           </div>
         </div>
 
