@@ -18,7 +18,16 @@ const SKILL_ALIASES = {
   'sanitation': 'food safety',
   'collaboration': 'teamwork',
   'formative assessment': 'student assessment',
-  'communicated with parents': 'parent communication'
+  'communicated with parents': 'parent communication',
+  'patient assessment': 'clinical assessment',
+  'clinical documentation': 'medical records',
+  'electronic health records': 'medical records',
+  'electronic health records (ehr)': 'medical records',
+  'ehr': 'medical records',
+  'team collaboration': 'teamwork',
+  'esl': 'english as a second language',
+  'cybersecurity': 'security',
+  'customer assistance': 'customer service'
 }
 
 const normalizeSkill = (skill) => {
