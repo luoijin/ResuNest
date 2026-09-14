@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import { Menu, X, Home, Users, LogOut, ChevronDown } from 'lucide-react'
+import { Menu, X, Home, Users, LogOut, ChevronDown, Moon, Sun } from 'lucide-react'
 import './Header.css'
 
-const Header = ({ isLoggedIn, onLogout, onNavigate }) => {
+const Header = ({ isLoggedIn, onLogout, onNavigate, theme, onToggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
@@ -72,6 +72,15 @@ const Header = ({ isLoggedIn, onLogout, onNavigate }) => {
         </div>
 
         <div className="header-actions">
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            className="theme-toggle"
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
+          </button>
           {isLoggedIn && (
             <div className="header-user-menu" ref={menuRef}>
               <button

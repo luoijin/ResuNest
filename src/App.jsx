@@ -20,6 +20,7 @@ function App() {
   const [showResults, setShowResults] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
   const [currentPage, setCurrentPage] = useState('home')
+  const [theme, setTheme] = useState(() => localStorage.getItem('resunest_theme') || 'dark')
   const { extractedSkills, matches, isLoading, analyzeResume, analyzePDFResume } = useResumeAnalysis(jobsDataset)
 
   useEffect(() => {
@@ -28,6 +29,11 @@ function App() {
       setIsLoggedIn(true)
     }
   }, [])
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    localStorage.setItem('resunest_theme', theme)
+  }, [theme])
 
   const handleLogin = (email) => {
     if (mockLogin(email)) {
@@ -123,21 +129,17 @@ function App() {
         
         {/* New Centered Hero Section */}
         {!showResults && (
-          <div className="flex flex-col items-center justify-center min-h-[75vh]">
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
-                Bridge the Gap to Your <br /><span className="text-blue-600">Dream Career</span>
-              </h1>
-              <div className="relative">
-                <span className="absolute -top-4 -left-4 text-4xl text-blue-200 font-serif">"</span>
-                <p className="text-lg text-slate-600 italic px-6">
-                  Success is where preparation and opportunity meet. Paste your resume or list your skills, and let AI uncover your next big opportunity.
-                </p>
-                <span className="absolute -bottom-4 -right-2 text-4xl text-blue-200 font-serif">"</span>
-              </div>
+          <div className="home-hero">
+            <div className="hero-copy">
+              <span className="hero-eyebrow">Your AI career companion</span>
+              <h1>Bridge the Gap to Your <span>Dream Career</span></h1>
+              <p className="hero-quote">“Success is where preparation and opportunity meet. Paste your resume or list your skills, and let AI uncover your next big opportunity.”</p>
+              <div className="hero-points"><span>Skill insights</span><span>Role matches</span><span>Learning paths</span></div>
             </div>
-            
-            <div className="w-full max-w-3xl">
+            <div className="hero-art" aria-hidden="true">
+              <img src={theme === 'light' ? '/career-hero-light.png' : '/career-hero.png'} alt="" />
+            </div>
+            <div className="hero-analysis">
               <ResumeInput 
                 onSubmit={handleResumeSubmit} 
                 isLoading={isLoading}
@@ -228,7 +230,7 @@ function App() {
   }
 
   return (
-    <Layout isLoggedIn={isLoggedIn} onLogout={handleLogout} onNavigate={handleNavigate}>
+    <Layout isLoggedIn={isLoggedIn} onLogout={handleLogout} onNavigate={handleNavigate} theme={theme} onToggleTheme={() => setTheme(current => current === 'dark' ? 'light' : 'dark')}>
       {renderContent()}
     </Layout>
   )

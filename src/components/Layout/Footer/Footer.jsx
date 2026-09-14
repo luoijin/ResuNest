@@ -4,15 +4,15 @@ import './Footer.css'
 const Footer = () => {
   const quickLinks = [
     { name: 'Home', href: '#' },
-    { name: 'Challenges', href: '#' },
-    { name: 'Teams', href: '#' },
-    { name: 'Leaderboard', href: '#' },
+    { name: 'Analyze Resume', href: '#' },
+    { name: 'Job Matches', href: '#' },
+    { name: 'Learning Paths', href: '#' },
   ]
 
   const resources = [
     { name: 'Documentation', href: '#' },
-    { name: 'API Reference', href: '#' },
-    { name: 'Guidelines', href: '#' },
+    { name: 'Skill Guide', href: '#' },
+    { name: 'Career Tips', href: '#' },
     { name: 'FAQ', href: '#' },
   ]
 
@@ -40,7 +40,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="footer-description">
-              University of Cebu's premier hackathon event. Building innovative solutions with AI and modern web technologies.
+              Your calm, focused space for turning experience into your next career opportunity.
             </p>
             <div className="footer-social">
               {socialLinks.map((social, i) => {
