@@ -1,33 +1,35 @@
-# Feature behavior and limitations
+# Features and limitations
 
-## Implemented user experience
+## Current features
 
-- Create a local demo account, then sign in with its email and password.
-- Paste resume text, load a bundled sample resume, or select a PDF file.
-- Review detected skills and ranked matches from the bundled job dataset.
-- Select a job to view its exact missing skills and learning-resource links.
-- Use the header to switch between Home and About, and sign out.
+- Public access: no account or sign-up is required.
+- PDF-only resume input.
+- Gemini-powered skill extraction with a local keyword fallback.
+- Career matching across technical and non-technical fields.
+- Match scores, matched skills, missing skills, and learning links.
+- Local analysis history with per-item removal and restore controls.
+- Downloadable PDF analysis report.
+- Light and dark themes with responsive layouts.
+- Five PDF analyses per anonymous visitor in each three-hour window.
 
-## Current implementation details
+## Important limitations
 
-### Skill extraction
+### Resume PDFs
 
-The active extractor calls Gemini for skill extraction, then uses deterministic keyword matching if the request fails or no API key is configured. The local fallback recognizes a fixed list including Python, JavaScript, SQL, React, Node.js, Git, Docker, AWS, project management, communication, and Figma. It does not infer equivalent skills, experience level, proficiency, or semantic context.
+ResuNest needs a PDF with selectable text. Scanned or image-only resumes need OCR before their text can be extracted accurately.
 
-### PDF uploads
+### AI and matching
 
-The UI accepts only files whose browser MIME type is `application/pdf`. `pdfService.js` uses PDF.js to extract selectable text from the uploaded file. Image-only or scanned PDFs without a text layer require OCR and display an error asking the user to paste the resume text instead.
+Gemini can make mistakes and may omit or normalize skills differently from the original resume. The local fallback is intentionally simpler and less accurate. Job scores are recommendations based on skill overlap, not a hiring decision or guarantee of suitability.
 
-### Job matching
+### Job catalog
 
-The seed dataset currently contains 12 roles. A score is the percentage of a job's required skills that exactly match an extracted skill after lowercasing. The implementation has no weighting, synonym mapping, location, salary, seniority, or job-description matching.
+The matching roles are curated and bundled with the application. ResuNest does not currently retrieve live postings from Upwork, Indeed, OnlineJobs.ph, or other job boards.
 
-### Authentication and security
+### Privacy and history
 
-Authentication is for demonstration only. Accounts and plain-text passwords are stored in browser `localStorage`; there is no server, password hashing, authorization, account recovery, or multi-device session support. Do not use real credentials. Gemini calls also run from the browser in this prototype, so move them behind a backend before public deployment to protect the API key.
+The uploaded file remains in the browser, but extracted resume text is sent to the ResuNest server and Gemini for analysis. History is local to the current browser; it is not account-backed or cross-device.
 
-## Known maintenance notes
+### Usage limit
 
-- `src/hooks/useAuth.js`, `src/services/jobStorage.js`, `src/services/useJobPosting.js`, and `src/services/geminiService.js` are alternative/legacy paths that are not connected to `App.jsx`.
-- `App.jsx` imports component paths with lowercase directory names while the folders on disk use capitalization (for example `Auth` and `Layout`). This works on typical Windows setups but can fail on case-sensitive filesystems.
-- The README's Gemini and PDF claims should be read alongside this documentation; the source code reflects the current behavior described here.
+The PDF limit is keyed to a salted hash of the visitor IP. Visitors on a shared network can share a quota, and changing networks may create a new quota identity.

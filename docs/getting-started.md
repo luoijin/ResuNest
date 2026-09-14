@@ -1,41 +1,62 @@
 # Getting started
 
-## Prerequisites
+## Requirements
 
-- Node.js 16 or later
-- npm
+- Node.js 20 or later
+- A MongoDB Atlas database
+- A Gemini API key kept private
 
-## Install and run
+## Install
 
-From the repository root:
-
-```bash
-npm install
-npm run dev
+```powershell
+npm.cmd install
 ```
 
-Vite is configured to serve the app on port `3000` and open a browser window. To create a production build, run:
-
-```bash
-npm run build
-```
-
-To preview a built version locally:
-
-```bash
-npm run preview
-```
-
-## Configuration
-
-The `.env` file is ignored by Git. The active Gemini integration reads this variable:
+Copy `.env.example` to `.env` and set these server-only variables:
 
 ```env
-VITE_GEMINI_API_KEY=your_api_key_here
+MONGODB_URI=your_mongodb_connection_string
+GEMINI_API_KEY=your_new_gemini_key
+GEMINI_MODEL=gemini-3.6-flash
+RATE_LIMIT_SALT=a_long_random_private_value
+PORT=4000
+CLIENT_ORIGIN=http://localhost:3000
 ```
 
-The active resume-analysis hook calls Gemini first, then falls back to local keyword extraction if Gemini is unavailable. The app defaults to `gemini-3.8-flash` and retries compatible Flash models; set `VITE_GEMINI_MODEL` to override it.
+Do not use `VITE_GEMINI_API_KEY`. Variables beginning with `VITE_` can be included in the browser bundle.
 
-## Dependencies
+## Run locally
 
-The application uses React 18, Vite, Tailwind CSS, Lucide React, and `pdfjs-dist`. The PDF text-extraction service imports `pdfjs-dist`; its current upload flow deliberately uses a mock PDF extractor instead of the live parser.
+Start the API:
+
+```powershell
+npm.cmd run dev:server
+```
+
+Start the frontend in another terminal:
+
+```powershell
+npm.cmd run dev
+```
+
+Vite runs on port 3000 and proxies `/api` requests to the API on port 4000.
+
+## Production build
+
+```powershell
+npm.cmd run build
+npm.cmd start
+```
+
+The Express server serves the built `dist` directory and API from the same origin.
+
+## Render deployment
+
+Use a Node web service with:
+
+```text
+Build Command: npm ci && npm run build
+Start Command: npm start
+```
+
+Set `MONGODB_URI`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `RATE_LIMIT_SALT`, and `NODE_VERSION=20` in Render Environment settings. Configure MongoDB Atlas Network Access so the deployed service can connect.
