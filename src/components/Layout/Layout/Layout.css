@@ -1,11 +1,2 @@
-.layout {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: white;
-}
-
-.layout-main {
-  flex-grow: 1;
-  margin-top: 4rem; /* Height of fixed header */
-}
+.layout { min-height: 100vh; display: flex; flex-direction: column; background: transparent; }
+.layout-main { flex-grow: 1; margin-top: 4.75rem; }

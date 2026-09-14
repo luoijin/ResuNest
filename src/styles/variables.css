@@ -1,17 +1,13 @@
 :root {
-  /* Light Mode Base */
-  --color-bg-main: #ffffff;
-  --color-bg-secondary: #f8fafc;
-  
-  /* Navy Blue Accent Palette */
-  --color-navy: #1e3a8a;
-  --color-navy-light: #2563eb;
-  --color-navy-dark: #172554;
-  --color-navy-bg: #eff6ff;
-  --color-navy-border: #bfdbfe;
-  
-  /* Text */
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94a3b8;
+  --color-bg-main: #07111f;
+  --color-bg-secondary: #0b1728;
+  --color-surface: rgba(15, 30, 50, 0.82);
+  --color-surface-strong: #12243d;
+  --color-border: rgba(148, 163, 184, 0.17);
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #b5c4d8;
+  --color-text-muted: #7e91aa;
+  --color-accent: #5ea9ff;
+  --color-accent-strong: #2779e6;
+  --color-glow: rgba(46, 139, 255, 0.25);
 }
