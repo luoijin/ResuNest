@@ -15,8 +15,10 @@ export default defineConfig({
         theme_color: '#0c2545',
         background_color: '#eef4fb',
         display: 'standalone',
+        id: '/',
+        scope: '/',
         start_url: '/',
-        icons: [{ src: '/logo.png', sizes: '561x445', type: 'image/png', purpose: 'any' }]
+        icons: [{ src: '/resunest-icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }]
       }
     })
   ],

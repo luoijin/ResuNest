@@ -1,4 +1,4 @@
-import { Code, MessageCircle, Briefcase, Mail, Heart, MapPin, Phone } from 'lucide-react'
+import { Code, MessageCircle, Briefcase, Mail, Heart, Phone } from 'lucide-react'
 import './Footer.css'
 
 const Footer = () => {
@@ -93,10 +93,6 @@ const Footer = () => {
           <div>
             <h3 className="footer-heading">Contact</h3>
             <ul className="footer-contact">
-              <li className="footer-contact-item">
-                <MapPin size={16} className="footer-contact-icon" />
-                <span>University of Cebu, Cebu City, Philippines</span>
-              </li>
               <li>
                 <a href="mailto:aloraine.cs@gmail.com" className="footer-contact-link">
                   <Mail size={16} className="footer-contact-icon" />
