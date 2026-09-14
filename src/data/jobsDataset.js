@@ -47,5 +47,33 @@ export const jobsDataset = [
   { id: 37, job_title: "Bartender", skills_required: ["Bartending", "Cocktail Preparation", "Customer Service", "POS Systems", "Cash Handling", "Inventory Management", "Food Safety", "Teamwork"] },
   { id: 38, job_title: "Bar Manager", skills_required: ["Bartending", "Leadership", "Inventory Management", "Customer Service", "Cash Handling", "Food Safety", "Teamwork"] },
   { id: 39, job_title: "Restaurant Server", skills_required: ["Customer Service", "POS Systems", "Cash Handling", "Teamwork", "Food Safety", "Restaurant Service"] },
-  { id: 40, job_title: "Hospitality Associate", skills_required: ["Hospitality", "Customer Service", "Communication", "Teamwork", "POS Systems"] }
+  { id: 40, job_title: "Hospitality Associate", skills_required: ["Hospitality", "Customer Service", "Communication", "Teamwork", "POS Systems"] },
+
+  // Education
+  { id: 41, job_title: "Secondary School Teacher", skills_required: ["Lesson Planning", "Classroom Management", "Student Assessment", "Differentiated Instruction", "Parent Communication", "Collaborative Teaching"] },
+  { id: 42, job_title: "English Teacher", skills_required: ["Lesson Planning", "Classroom Management", "Student Assessment", "Parent Communication", "Communication"] },
+  { id: 43, job_title: "Teaching Assistant", skills_required: ["Classroom Management", "Learning Support", "Student Assessment", "Collaborative Teaching", "Communication"] },
+  { id: 44, job_title: "Learning Support Teacher", skills_required: ["Learning Support", "Differentiated Instruction", "Student Assessment", "Special Education", "Parent Communication"] },
+  { id: 45, job_title: "Curriculum Coordinator", skills_required: ["Curriculum Development", "Lesson Planning", "Student Assessment", "Leadership", "Collaborative Teaching"] },
+  { id: 46, job_title: "Educational Technology Coordinator", skills_required: ["Educational Technology", "Lesson Planning", "Teaching", "Communication", "Project Management"] },
+
+  // Healthcare
+  { id: 47, job_title: "General Practitioner", skills_required: ["Patient Care", "Clinical Assessment", "Medical Diagnosis", "Medical Records", "Medical Terminology", "Communication"] },
+  { id: 48, job_title: "Registered Nurse", skills_required: ["Patient Care", "Clinical Assessment", "Nursing", "Medical Records", "Infection Control", "Communication"] },
+  { id: 49, job_title: "Medical Laboratory Technologist", skills_required: ["Laboratory Testing", "Quality Control", "Medical Terminology", "Safety Compliance", "Communication"] },
+  { id: 50, job_title: "Pharmacist", skills_required: ["Pharmacy", "Medical Terminology", "Patient Care", "Communication", "Health Education"] },
+  { id: 51, job_title: "Community Health Worker", skills_required: ["Health Education", "Patient Care", "Communication", "First Aid", "Medical Records"] },
+
+  // Engineering
+  { id: 52, job_title: "Civil Engineer", skills_required: ["Civil Engineering", "AutoCAD", "Technical Drawing", "Construction Management", "Safety Compliance", "Project Management"] },
+  { id: 53, job_title: "Mechanical Engineer", skills_required: ["Mechanical Systems", "Engineering Design", "AutoCAD", "Technical Drawing", "Quality Control", "Mathematics"] },
+  { id: 54, job_title: "Electrical Engineer", skills_required: ["Electrical Systems", "Engineering Design", "AutoCAD", "Safety Compliance", "Mathematics", "Project Management"] },
+  { id: 55, job_title: "Project Engineer", skills_required: ["Engineering Design", "Project Management", "Safety Compliance", "Quality Control", "Communication"] },
+  { id: 56, job_title: "Quality Assurance Engineer", skills_required: ["Quality Control", "Safety Compliance", "Engineering Design", "Technical Drawing", "Communication"] },
+
+  // Aviation, maritime & service crew
+  { id: 57, job_title: "Flight Attendant / Cabin Crew", skills_required: ["Cabin Crew", "Passenger Service", "Safety Procedures", "Emergency Response", "First Aid", "Communication", "Teamwork"] },
+  { id: 58, job_title: "Cruise Ship Crew", skills_required: ["Hospitality", "Customer Service", "Safety Procedures", "Emergency Response", "Teamwork", "Communication"] },
+  { id: 59, job_title: "Deck Crew / Seafarer", skills_required: ["Maritime Safety", "Navigation", "Seamanship", "Safety Procedures", "Emergency Response", "Teamwork"] },
+  { id: 60, job_title: "Airport Ground Crew", skills_required: ["Safety Procedures", "Customer Service", "Passenger Service", "Teamwork", "Communication"] }
 ]

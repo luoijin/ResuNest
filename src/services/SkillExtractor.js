@@ -11,7 +11,24 @@ export const extractSkillsFromText = (resumeText) => {
     'project management', 'agile', 'scrum', 'leadership', 'communication', 'figma',
     'photoshop', 'illustrator', 'wordpress', 'seo', 'marketing', 'sales', 'finance',
     'bartending', 'cocktail preparation', 'cocktails', 'customer service', 'pos systems', 'pos', 'cash handling',
-    'inventory management', 'inventory', 'food safety', 'sanitation', 'teamwork', 'hospitality', 'restaurant service'
+    'inventory management', 'inventory', 'food safety', 'sanitation', 'teamwork', 'hospitality', 'restaurant service',
+
+    // Education
+    'lesson planning', 'classroom management', 'student assessment', 'formative assessment', 'differentiated instruction',
+    'parent communication', 'communicated with parents', 'educational technology', 'collaborative teaching', 'curriculum development',
+    'special education', 'learning support', 'teaching',
+
+    // Healthcare
+    'patient care', 'clinical assessment', 'medical diagnosis', 'medical records', 'infection control',
+    'health education', 'first aid', 'nursing', 'pharmacy', 'laboratory testing', 'medical terminology',
+
+    // Engineering
+    'autocad', 'engineering design', 'technical drawing', 'safety compliance', 'quality control',
+    'mathematics', 'electrical systems', 'mechanical systems', 'civil engineering', 'construction management',
+
+    // Aviation, maritime & service crew
+    'cabin crew', 'flight attendant', 'emergency response', 'safety procedures', 'maritime safety',
+    'navigation', 'seamanship', 'passenger service', 'crew coordination'
   ]
   
   const lowerText = resumeText.toLowerCase()
