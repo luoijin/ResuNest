@@ -17,9 +17,8 @@ const Footer = () => {
   ]
 
   const socialLinks = [
-    { icon: Code, href: '#', label: 'GitHub', hoverClass: 'social-github' },
-    { icon: MessageCircle, href: '#', label: 'Twitter', hoverClass: 'social-twitter' },
-    { icon: Briefcase, href: '#', label: 'LinkedIn', hoverClass: 'social-linkedin' },
+    { icon: Code, href: 'https://github.com/luoijin/ResuNest/tree/main', label: 'GitHub', hoverClass: 'social-github' },
+    
   ]
 
   return (
@@ -38,7 +37,6 @@ const Footer = () => {
               </div>
               <div>
                 <span className="footer-logo-title">ResuNest</span>
-                <span className="footer-logo-subtitle">2026</span>
               </div>
             </div>
             <p className="footer-description">
@@ -51,6 +49,8 @@ const Footer = () => {
                   <a
                     key={i}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={social.label}
                     className={`footer-social-link ${social.hoverClass}`}
                   >
@@ -127,7 +127,6 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="footer-bottom">
-          
           <div className="footer-legal">
             <a href="#" className="footer-legal-link">Privacy Policy</a>
             <a href="#" className="footer-legal-link">Terms of Service</a>

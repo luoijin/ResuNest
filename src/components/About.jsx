@@ -82,8 +82,6 @@ const About = () => {
             <span className="px-4 py-2 bg-blue-50 text-blue-900 rounded-full text-sm font-medium">Lucide Icons</span>
           </div>
         </div>
-
-        {/* Hackathon Info */}
         
 
         {/* Footer Note */}
