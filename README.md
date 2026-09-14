@@ -1,89 +1,58 @@
 # ResuNest
 
-> AI-powered job matching and skill-gap analysis prototype for the University of Cebu Hackathon 2026.
+ResuNest is a community-focused, AI-assisted career discovery service. It helps people understand the strengths in their resume and explore the fields where they may thrive.
 
-ResuNest helps job seekers compare their resume skills with available roles, understand missing requirements, and find learning resources to close those gaps.
+Live site: [resunest.onrender.com](https://resunest.onrender.com)
 
 ## What it does
 
-- Accepts pasted resume text or a PDF upload.
-- Extracts recognized technical and professional skills.
-- Ranks bundled job roles by skill match percentage.
-- Shows matched and missing skills for each role.
-- Provides learning-resource links for missing skills.
-- Includes local, demo-only sign-up and login flows.
+- Accepts PDF resumes with selectable text.
+- Extracts professional and domain skills with Gemini through a protected server API.
+- Falls back to local keyword extraction when Gemini is temporarily unavailable.
+- Matches skills against a bundled role catalog spanning technology, education, healthcare, engineering, IT, hospitality, and crew roles, helping people identify their strongest career field.
+- Shows match scores, skill gaps, and learning recommendations.
+- Saves recent analyses locally in the visitor's browser.
+- Lets visitors download their current result as a PDF report.
+- Limits anonymous visitors to five PDF analyses per three-hour window.
 
-## Tech stack
+## Stack
 
-- React 18
-- Vite
-- Tailwind CSS
-- Lucide React
-- PDF.js (`pdfjs-dist`)
+- React and Vite
+- Express and Node.js
+- MongoDB Atlas with Mongoose
+- Google Gemini API
+- PDF.js for browser-side text extraction
+- jsPDF for downloadable reports
+- Render for deployment
 
-## Quick start
+## Run locally
 
-### Prerequisites
-
-- Node.js 16 or later
-- npm
-
-### Run locally
-
-```bash
-npm install
-npm run dev
-```
-
-The Vite development server is configured for port `3000`.
-
-### Build
-
-```bash
-npm run build
-```
-
-If PowerShell blocks `npm.ps1`, use the Windows command shim instead:
+Install dependencies:
 
 ```powershell
-npm.cmd run build
+npm.cmd install
 ```
 
-## Configuration
+Create `.env` from `.env.example`, then add real values for `MONGODB_URI`, `GEMINI_API_KEY`, and `RATE_LIMIT_SALT`.
 
-Create a `.env` file to enable Gemini-powered skill extraction:
+Start the API in one terminal:
 
-```env
-VITE_GEMINI_API_KEY=your_api_key_here
-# Optional: defaults to gemini-3.8-flash and retries compatible Flash models
-VITE_GEMINI_MODEL=gemini-3.8-flash
+```powershell
+npm.cmd run dev:server
 ```
 
-The app uses Gemini first and automatically falls back to local keyword extraction if the key is missing, the request fails, or quota is unavailable.
+Start Vite in a second terminal:
 
-## Important notes
+```powershell
+npm.cmd run dev
+```
 
-- PDF uploads extract selectable text from the actual file. Image-only/scanned PDFs need OCR or should be pasted as text.
-- Authentication is demo-only and stores account data in browser `localStorage`. Do not use real credentials.
-- Job matching uses case-insensitive exact skill-name comparisons against the bundled dataset.
-- The Gemini request currently runs from the browser for this prototype. Use a backend proxy before deploying publicly so the API key is not exposed to visitors.
+## Security
+
+Keep `.env` private. Gemini and MongoDB secrets must never use a `VITE_` prefix or be committed to Git. The browser sends extracted resume text to the protected API; it does not receive the Gemini key.
 
 ## Documentation
 
-More detailed documentation is available in [docs/README.md](docs/README.md):
-
 - [Getting started](docs/getting-started.md)
 - [Architecture](docs/architecture.md)
-- [Feature behavior and limitations](docs/features-and-limitations.md)
-
-## Project structure
-
-```text
-src/
-  components/  # UI components and layout
-  data/        # Job dataset and learning-resource map
-  hooks/       # Resume-analysis and supporting hooks
-  services/    # Extraction, matching, PDF, and storage services
-  utils/       # Demo-auth helpers and utilities
-docs/          # Project documentation
-```
+- [Features and limitations](docs/features-and-limitations.md)
