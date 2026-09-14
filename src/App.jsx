@@ -15,7 +15,7 @@ import { useResumeAnalysis } from './hooks/useResumeAnalysis'
 function App() {
   const [showResults, setShowResults] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
-  const [currentPage, setCurrentPage] = useState('home')
+  const [currentPage, setCurrentPage] = useState(() => window.location.hash === '#about' ? 'about' : 'home')
   const [theme, setTheme] = useState(() => localStorage.getItem('resunest_theme') || 'dark')
   const [analysisHistory, setAnalysisHistory] = useState(() => {
     try {
@@ -35,6 +35,12 @@ function App() {
     document.documentElement.classList.toggle('results-active', showResults)
     return () => document.documentElement.classList.remove('results-active')
   }, [showResults])
+
+  useEffect(() => {
+    const restoreRoute = () => setCurrentPage(window.location.hash === '#about' ? 'about' : 'home')
+    window.addEventListener('hashchange', restoreRoute)
+    return () => window.removeEventListener('hashchange', restoreRoute)
+  }, [])
 
   const handlePDFUpload = async (file) => {
     const result = await analyzePDFResume(file)
@@ -152,6 +158,8 @@ function App() {
   
   const handleNavigate = (page) => {
     setCurrentPage(page)
+    const hash = page === 'about' ? '#about' : ''
+    if (window.location.hash !== hash) window.location.hash = hash
     if (page !== 'dashboard') {
       setShowResults(false)
       setSelectedJob(null)
@@ -297,7 +305,7 @@ function App() {
   }
 
   return (
-    <Layout onNavigate={handleNavigate} theme={theme} onToggleTheme={() => setTheme(current => current === 'dark' ? 'light' : 'dark')}>
+    <Layout currentPage={currentPage} onNavigate={handleNavigate} theme={theme} onToggleTheme={() => setTheme(current => current === 'dark' ? 'light' : 'dark')}>
       {renderContent()}
     </Layout>
   )

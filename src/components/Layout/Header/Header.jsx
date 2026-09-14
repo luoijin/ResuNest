@@ -2,10 +2,9 @@ import { useState, useEffect } from 'react'
 import { Menu, X, Home, Users, Moon, Sun } from 'lucide-react'
 import './Header.css'
 
-const Header = ({ onNavigate, theme, onToggleTheme }) => {
+const Header = ({ currentPage, onNavigate, theme, onToggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [activeLink, setActiveLink] = useState('Home')
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
@@ -19,7 +18,6 @@ const Header = ({ onNavigate, theme, onToggleTheme }) => {
   ]
 
   const handleNavClick = (link) => {
-    setActiveLink(link.name)
     if (onNavigate) {
       onNavigate(link.page)
     }
@@ -44,7 +42,7 @@ const Header = ({ onNavigate, theme, onToggleTheme }) => {
         <div className="header-nav-links">
           {navLinks.map((link) => {
             const Icon = link.icon
-            const isActive = activeLink === link.name
+            const isActive = currentPage === link.page
             return (
               <button
                 key={link.name}
@@ -88,7 +86,7 @@ const Header = ({ onNavigate, theme, onToggleTheme }) => {
                   handleNavClick(link)
                   setIsMobileMenuOpen(false)
                 }}
-                className={`header-mobile-link ${activeLink === link.name ? 'header-mobile-link-active' : ''}`}
+                className={`header-mobile-link ${currentPage === link.page ? 'header-mobile-link-active' : ''}`}
               >
                 <Icon size={18} />
                 <span>{link.name}</span>
