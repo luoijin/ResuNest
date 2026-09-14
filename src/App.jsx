@@ -213,6 +213,45 @@ function App() {
     }
   }
 
+  const scrollToSection = (id) => {
+    window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
+  }
+
+  const handleFooterAction = (action) => {
+    if (action === 'home') {
+      if (currentPage !== 'home') handleNavigate('home')
+      window.setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 50)
+      return
+    }
+
+    if (action === 'analyze') {
+      if (currentPage !== 'home') handleNavigate('home')
+      else handleAnalyzeAnother()
+      scrollToSection('resume-upload')
+      return
+    }
+
+    if (action === 'matches') {
+      if (currentPage === 'home' && showResults) {
+        setSelectedJob(null)
+        scrollToSection('job-matches')
+      } else {
+        if (currentPage !== 'home') handleNavigate('home')
+        scrollToSection('resume-upload')
+      }
+      return
+    }
+
+    if (action === 'learning') {
+      if (currentPage === 'home' && showResults && selectedJob) scrollToSection('learning-paths')
+      else if (currentPage === 'home' && showResults) scrollToSection('job-matches')
+      else {
+        if (currentPage !== 'home') handleNavigate('home')
+        scrollToSection('resume-upload')
+      }
+    }
+  }
+
   const renderContent = () => {
     if (currentPage === 'about') {
       return <About />
@@ -244,7 +283,7 @@ function App() {
             <div className="hero-art" aria-hidden="true">
               <img src={theme === 'light' ? '/career-hero-light.png' : '/career-hero.png'} alt="" />
             </div>
-            <div className="hero-analysis">
+            <div className="hero-analysis" id="resume-upload">
               <ResumeInput 
                 isLoading={isLoading}
                 onPDFUpload={handlePDFUpload}
@@ -264,7 +303,7 @@ function App() {
 
         {/* Results Section */}
         {showResults && !selectedJob && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500" id="job-matches">
             <div className="results-skills-panel mb-8 p-5 rounded-xl">
               <div className="results-skills-header flex justify-between items-center mb-3">
                 <h2 className="results-skills-title font-semibold">Extracted Skills:</h2>
@@ -347,10 +386,12 @@ function App() {
                   jobTitle={selectedJob.job_title}
                 />
 
-                <Recommendations 
-                  missingSkills={selectedJob.missingSkills} 
-                  learningMap={learningMap}
-                />
+                <div id="learning-paths">
+                  <Recommendations
+                    missingSkills={selectedJob.missingSkills}
+                    learningMap={learningMap}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -368,7 +409,7 @@ function App() {
   }
 
   return (
-    <Layout currentPage={currentPage} onNavigate={handleNavigate} theme={theme} onToggleTheme={() => setTheme(current => current === 'dark' ? 'light' : 'dark')}>
+    <Layout currentPage={currentPage} onNavigate={handleNavigate} onFooterAction={handleFooterAction} theme={theme} onToggleTheme={() => setTheme(current => current === 'dark' ? 'light' : 'dark')}>
       {renderContent()}
     </Layout>
   )

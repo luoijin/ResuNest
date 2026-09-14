@@ -22,7 +22,6 @@ const Recommendations = ({ missingSkills, learningMap }) => {
     if (url.includes('coursera')) return 'Coursera'
     if (url.includes('w3schools')) return 'W3Schools'
     if (url.includes('docs')) return 'Documentation'
-    if (url.includes('github')) return 'GitHub'
     return 'Learn More'
   }
 
