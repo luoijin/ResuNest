@@ -5,7 +5,7 @@ const formatDate = (timestamp) => new Intl.DateTimeFormat(undefined, {
   timeStyle: 'short'
 }).format(new Date(timestamp))
 
-const AnalysisHistory = ({ entries, onRestore, onClear }) => {
+const AnalysisHistory = ({ entries, onRestore, onRemove, onClear }) => {
   if (!entries.length) return null
 
   return (
@@ -24,10 +24,19 @@ const AnalysisHistory = ({ entries, onRestore, onClear }) => {
       <div className="analysis-history-grid">
         {entries.map((entry) => (
           <article className="analysis-history-card" key={entry.id}>
+            <button
+              type="button"
+              className="history-remove-btn"
+              onClick={() => onRemove(entry.id)}
+              aria-label={`Remove ${entry.label} from history`}
+              title="Remove from history"
+            >
+              <Trash2 size={15} />
+            </button>
             <div className="history-card-topline">
               <span className="history-file-icon"><FileText size={16} /></span>
               <div>
-                <h3>{entry.label}</h3>
+                <h3 title={entry.label}>{entry.label}</h3>
                 <time dateTime={entry.createdAt}>{formatDate(entry.createdAt)}</time>
               </div>
             </div>

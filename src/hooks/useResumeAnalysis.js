@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { extractSkillsFromText, processPDFResume } from '../services/SkillExtractor'
+import { processPDFResume } from '../services/SkillExtractor'
 import { extractSkillsWithGemini } from '../services/geminiService'
 import { getAllJobs, matchJobs } from '../services/jobMatcher'
 
@@ -9,33 +9,6 @@ export const useResumeAnalysis = (jobsDataset) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
   const [uploadedFileName, setUploadedFileName] = useState(null)
-
-  const analyzeResume = async (resumeText) => {
-    setIsLoading(true)
-    setError(null)
-    
-    try {
-      const allJobs = getAllJobs()
-      let skills
-      try {
-        skills = await extractSkillsWithGemini(resumeText)
-      } catch (aiError) {
-        console.warn('Gemini analysis unavailable; using keyword fallback.', aiError)
-        skills = extractSkillsFromText(resumeText)
-      }
-      setExtractedSkills(skills)
-      
-      const matchResults = matchJobs(skills, allJobs)
-      setMatches(matchResults)
-      
-      return { skills, matches: matchResults }
-    } catch (err) {
-      setError(err.message)
-      return { skills: [], matches: [] }
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   const analyzePDFResume = async (file) => {
     setIsLoading(true)
@@ -53,8 +26,9 @@ export const useResumeAnalysis = (jobsDataset) => {
       const allJobs = getAllJobs()
       let skills
       try {
-        skills = await extractSkillsWithGemini(result.text)
+        skills = await extractSkillsWithGemini(result.text, 'pdf')
       } catch (aiError) {
+        if (aiError.status === 429) throw aiError
         console.warn('Gemini analysis unavailable; using keyword fallback.', aiError)
         skills = result.skills
       }
@@ -88,7 +62,6 @@ export const useResumeAnalysis = (jobsDataset) => {
     isLoading,
     error,
     uploadedFileName,
-    analyzeResume,
     analyzePDFResume,
     loadSavedAnalysis
   }
