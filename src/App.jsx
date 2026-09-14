@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Download } from 'lucide-react'
+import { Download, Menu, X } from 'lucide-react'
 import { jsPDF } from 'jspdf'
 import Layout from './components/Layout/Layout'
 import ResumeInput from './components/ResumeInput'
@@ -15,6 +15,7 @@ import { useResumeAnalysis } from './hooks/useResumeAnalysis'
 function App() {
   const [showResults, setShowResults] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
+  const [isResultsMenuOpen, setIsResultsMenuOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(() => window.location.hash === '#about' ? 'about' : 'home')
   const [theme, setTheme] = useState(() => localStorage.getItem('resunest_theme') || 'light')
   const [analysisHistory, setAnalysisHistory] = useState(() => {
@@ -153,8 +154,15 @@ function App() {
     document.save(`resunest-analysis-${filenameDate}.pdf`)
   }
 
-  const handleSelectJob = (job) => setSelectedJob(job)
-  const handleBackToResults = () => setSelectedJob(null)
+  const handleSelectJob = (job) => {
+    setSelectedJob(job)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleBackToResults = () => {
+    setSelectedJob(null)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
   
   const handleNavigate = (page) => {
     setCurrentPage(page)
@@ -221,20 +229,37 @@ function App() {
             <div className="results-skills-panel mb-8 p-5 rounded-xl">
               <div className="flex justify-between items-center mb-3">
                 <h2 className="results-skills-title font-semibold">Extracted Skills:</h2>
-                <div className="results-panel-actions">
+                <div className={`results-panel-actions ${isResultsMenuOpen ? 'results-panel-actions-open' : ''}`}>
                   <button
-                    onClick={handleDownloadAnalysis}
-                    className="download-analysis-btn text-sm font-medium px-3 py-1.5 rounded-lg transition-colors"
+                    type="button"
+                    onClick={() => setIsResultsMenuOpen(open => !open)}
+                    className="results-actions-menu-btn"
+                    aria-label="Open analysis actions"
+                    aria-expanded={isResultsMenuOpen}
                   >
-                    <Download size={15} />
-                    Download PDF
+                    {isResultsMenuOpen ? <X size={18} /> : <Menu size={18} />}
                   </button>
-                  <button
-                    onClick={() => setShowResults(false)}
-                    className="analyze-another-btn text-sm font-medium px-3 py-1.5 rounded-lg transition-colors"
-                  >
-                    Analyze Another
-                  </button>
+                  <div className="results-panel-actions-list">
+                    <button
+                      onClick={() => {
+                        handleDownloadAnalysis()
+                        setIsResultsMenuOpen(false)
+                      }}
+                      className="download-analysis-btn text-sm font-medium px-3 py-1.5 rounded-lg transition-colors"
+                    >
+                      <Download size={15} />
+                      Download PDF
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowResults(false)
+                        setIsResultsMenuOpen(false)
+                      }}
+                      className="analyze-another-btn text-sm font-medium px-3 py-1.5 rounded-lg transition-colors"
+                    >
+                      Analyze Another
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="flex flex-wrap gap-2">
