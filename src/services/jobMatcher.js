@@ -16,7 +16,9 @@ const SKILL_ALIASES = {
   'sanitation and safety': 'food safety',
   'food sanitation': 'food safety',
   'sanitation': 'food safety',
-  'collaboration': 'teamwork'
+  'collaboration': 'teamwork',
+  'formative assessment': 'student assessment',
+  'communicated with parents': 'parent communication'
 }
 
 const normalizeSkill = (skill) => {
