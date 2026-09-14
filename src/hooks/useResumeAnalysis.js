@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { extractSkillsWithGemini, processPDFResume } from '../services/SkillExtractor'
+import { extractSkillsFromText, processPDFResume } from '../services/SkillExtractor'
+import { extractSkillsWithGemini } from '../services/geminiService'
 import { getAllJobs, matchJobs } from '../services/jobMatcher'
 
 export const useResumeAnalysis = (jobsDataset) => {
@@ -15,7 +16,13 @@ export const useResumeAnalysis = (jobsDataset) => {
     
     try {
       const allJobs = getAllJobs()
-      const skills = await extractSkillsWithGemini(resumeText)
+      let skills
+      try {
+        skills = await extractSkillsWithGemini(resumeText)
+      } catch (aiError) {
+        console.warn('Gemini analysis unavailable; using keyword fallback.', aiError)
+        skills = extractSkillsFromText(resumeText)
+      }
       setExtractedSkills(skills)
       
       const matchResults = matchJobs(skills, allJobs)
@@ -36,7 +43,7 @@ export const useResumeAnalysis = (jobsDataset) => {
     setUploadedFileName(file.name)
     
     try {
-      const result = await processPDFResume(file, true)
+      const result = await processPDFResume(file)
       
       if (!result.success) {
         setError(result.error)
@@ -44,13 +51,20 @@ export const useResumeAnalysis = (jobsDataset) => {
       }
       
       const allJobs = getAllJobs()
-      setExtractedSkills(result.skills)
+      let skills
+      try {
+        skills = await extractSkillsWithGemini(result.text)
+      } catch (aiError) {
+        console.warn('Gemini analysis unavailable; using keyword fallback.', aiError)
+        skills = result.skills
+      }
+      setExtractedSkills(skills)
       
-      const matchResults = matchJobs(result.skills, allJobs)
+      const matchResults = matchJobs(skills, allJobs)
       setMatches(matchResults)
       
       return { 
-        skills: result.skills, 
+        skills,
         matches: matchResults,
         extractedText: result.text 
       }
@@ -62,6 +76,12 @@ export const useResumeAnalysis = (jobsDataset) => {
     }
   }
 
+  const loadSavedAnalysis = ({ skills, matches: savedMatches }) => {
+    setExtractedSkills(skills || [])
+    setMatches(savedMatches || [])
+    setError(null)
+  }
+
   return {
     extractedSkills,
     matches,
@@ -69,6 +89,7 @@ export const useResumeAnalysis = (jobsDataset) => {
     error,
     uploadedFileName,
     analyzeResume,
-    analyzePDFResume
+    analyzePDFResume,
+    loadSavedAnalysis
   }
 }

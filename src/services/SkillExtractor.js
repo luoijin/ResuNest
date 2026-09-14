@@ -1,10 +1,7 @@
-import { mockExtractTextFromPDF } from './pdfService'
-
-// Mock skills for demo
-const MOCK_SKILLS = ["Python", "JavaScript", "React", "SQL", "Git", "Node.js", "HTML", "CSS"]
+import { extractTextFromPDF } from './pdfService'
 
 // Make sure this is EXPORTED
-export const extractSkillsWithGemini = async (resumeText) => {
+export const extractSkillsFromText = (resumeText) => {
   // Simple keyword matching for demo
   const skillsFound = []
   const skillKeywords = [
@@ -12,7 +9,9 @@ export const extractSkillsWithGemini = async (resumeText) => {
     'html', 'css', 'git', 'docker', 'aws', 'mongodb', 'postgresql', 'typescript',
     'angular', 'vue', 'php', 'ruby', 'c++', 'csharp', 'data analysis', 'machine learning',
     'project management', 'agile', 'scrum', 'leadership', 'communication', 'figma',
-    'photoshop', 'illustrator', 'wordpress', 'seo', 'marketing', 'sales', 'finance'
+    'photoshop', 'illustrator', 'wordpress', 'seo', 'marketing', 'sales', 'finance',
+    'bartending', 'cocktail preparation', 'cocktails', 'customer service', 'pos systems', 'pos', 'cash handling',
+    'inventory management', 'inventory', 'food safety', 'sanitation', 'teamwork', 'hospitality', 'restaurant service'
   ]
   
   const lowerText = resumeText.toLowerCase()
@@ -27,18 +26,15 @@ export const extractSkillsWithGemini = async (resumeText) => {
   return [...new Set(skillsFound)]
 }
 
+// Legacy alias retained for modules that still import the original name.
+export const extractSkillsWithGemini = extractSkillsFromText
+
 // Make sure this is EXPORTED
-export const processPDFResume = async (file, useMock = true) => {
+export const processPDFResume = async (file) => {
   try {
-    let extractedText
+    const extractedText = await extractTextFromPDF(file)
     
-    if (useMock) {
-      extractedText = await mockExtractTextFromPDF(file)
-    } else {
-      extractedText = await mockExtractTextFromPDF(file)
-    }
-    
-    const skills = await extractSkillsWithGemini(extractedText)
+    const skills = extractSkillsFromText(extractedText)
     
     return {
       success: true,

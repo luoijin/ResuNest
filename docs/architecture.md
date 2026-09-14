@@ -19,8 +19,8 @@ main.jsx
 ## Analysis pipeline
 
 1. The user pastes resume text or selects a PDF.
-2. Text submissions are scanned against the keyword list in `src/services/SkillExtractor.js`.
-3. PDF submissions call `processPDFResume`. At present it returns a fixed mock resume after a one-second delay, then runs that text through the same keyword scanner.
+2. Text submissions are sent to `src/services/geminiService.js` for AI skill extraction. If Gemini is unavailable, they are scanned against the keyword list in `src/services/SkillExtractor.js`.
+3. PDF submissions use PDF.js to extract selectable text from the uploaded file, then send that text to Gemini with the same keyword fallback.
 4. `matchJobs` compares extracted and required skills case-insensitively using exact string equality.
 5. Each job receives `matchedSkills`, `missingSkills`, and a rounded match percentage: `matched / required * 100`.
 6. Results are sorted descending by match score. Selecting a job shows its missing skills and relevant learning links.
@@ -31,7 +31,7 @@ main.jsx
 |---|---|---|
 | Application state and routing | `src/App.jsx` | Session state, page selection, resume-result views |
 | Resume analysis | `src/hooks/useResumeAnalysis.js` | Loading/error state and orchestration |
-| Skill extraction | `src/services/SkillExtractor.js` | Keyword matching and PDF analysis entry point |
+| Skill extraction | `src/services/geminiService.js`, `src/services/SkillExtractor.js` | Gemini extraction with keyword fallback and PDF analysis entry point |
 | Job matching | `src/services/jobMatcher.js` | Merge seed/client jobs and calculate scores |
 | Seed data | `src/data/jobsDataset.js` | Built-in job roles and required skills |
 | Learning links | `src/data/learningMap.js` | Skill-to-resource URL mapping |
@@ -48,4 +48,3 @@ main.jsx
 | `resunest_users` / `resunest_current_user` | `src/hooks/useAuth.js` | Alternative, currently unused authentication hook |
 
 The code contains two separate demo-auth implementations and two client-job storage keys. The App currently uses `src/utils/auth.js` plus `uc_hackathon_users`.
-
