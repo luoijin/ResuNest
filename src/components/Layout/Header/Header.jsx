@@ -1,15 +1,34 @@
 import { useState, useEffect } from 'react'
-import { Menu, X, Home, Users, Moon, Sun } from 'lucide-react'
+import { Download, Menu, X, Home, Users, Moon, Sun } from 'lucide-react'
 import './Header.css'
 
 const Header = ({ currentPage, onNavigate, theme, onToggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [installPrompt, setInstallPrompt] = useState(null)
+  const [isInstalled, setIsInstalled] = useState(() => window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true)
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const captureInstallPrompt = (event) => {
+      event.preventDefault()
+      setInstallPrompt(event)
+    }
+    const markInstalled = () => {
+      setInstallPrompt(null)
+      setIsInstalled(true)
+    }
+    window.addEventListener('beforeinstallprompt', captureInstallPrompt)
+    window.addEventListener('appinstalled', markInstalled)
+    return () => {
+      window.removeEventListener('beforeinstallprompt', captureInstallPrompt)
+      window.removeEventListener('appinstalled', markInstalled)
+    }
   }, [])
 
   const navLinks = [
@@ -21,6 +40,13 @@ const Header = ({ currentPage, onNavigate, theme, onToggleTheme }) => {
     if (onNavigate) {
       onNavigate(link.page)
     }
+  }
+
+  const handleInstall = async () => {
+    if (!installPrompt) return
+    await installPrompt.prompt()
+    await installPrompt.userChoice
+    setInstallPrompt(null)
   }
 
   return (
@@ -40,6 +66,12 @@ const Header = ({ currentPage, onNavigate, theme, onToggleTheme }) => {
         </div>
 
         <div className="header-nav-links">
+          {!isInstalled && installPrompt && (
+            <button onClick={handleInstall} className="header-install-btn">
+              <Download size={16} />
+              <span>Install</span>
+            </button>
+          )}
           {navLinks.map((link) => {
             const Icon = link.icon
             const isActive = currentPage === link.page
@@ -77,6 +109,12 @@ const Header = ({ currentPage, onNavigate, theme, onToggleTheme }) => {
 
       <div className={`header-mobile-menu ${isMobileMenuOpen ? 'header-mobile-menu-open' : ''}`}>
         <div className="header-mobile-links">
+          {!isInstalled && installPrompt && (
+            <button onClick={handleInstall} className="header-mobile-install-btn">
+              <Download size={18} />
+              <span>Install ResuNest</span>
+            </button>
+          )}
           {navLinks.map((link) => {
             const Icon = link.icon
             return (

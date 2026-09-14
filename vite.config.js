@@ -1,8 +1,25 @@
 import { defineConfig } from 'vite' 
 import react from '@vitejs/plugin-react' 
+import { VitePWA } from 'vite-plugin-pwa'
  
 export default defineConfig({ 
-  plugins: [react()], 
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['logo.png', 'favicon.ico'],
+      manifest: {
+        name: 'ResuNest - Career Discovery',
+        short_name: 'ResuNest',
+        description: 'Discover career fields that match your strengths.',
+        theme_color: '#0c2545',
+        background_color: '#eef4fb',
+        display: 'standalone',
+        start_url: '/',
+        icons: [{ src: '/logo.png', sizes: '561x445', type: 'image/png', purpose: 'any' }]
+      }
+    })
+  ],
   server: { 
     port: 3000, 
     open: true,
