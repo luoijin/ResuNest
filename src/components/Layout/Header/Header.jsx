@@ -1,29 +1,16 @@
-import { useState, useEffect, useRef } from 'react'
-import { Menu, X, Home, Users, LogOut, ChevronDown, Moon, Sun } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Menu, X, Home, Users, Moon, Sun } from 'lucide-react'
 import './Header.css'
 
-const Header = ({ isLoggedIn, onLogout, onNavigate, theme, onToggleTheme }) => {
+const Header = ({ onNavigate, theme, onToggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [activeLink, setActiveLink] = useState('Home')
-  
-  const menuRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsUserMenuOpen(false)
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
   const navLinks = [
@@ -81,39 +68,6 @@ const Header = ({ isLoggedIn, onLogout, onNavigate, theme, onToggleTheme }) => {
           >
             {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>
-          {isLoggedIn && (
-            <div className="header-user-menu" ref={menuRef}>
-              <button
-                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                className="header-user-btn"
-              >
-                <div className="header-user-avatar">
-                  <Users className="header-user-avatar-icon" size={12} />
-                </div>
-                <span className="header-user-name">User</span>
-                <ChevronDown className={`header-user-chevron ${isUserMenuOpen ? 'header-user-chevron-rotated' : ''}`} size={14} />
-              </button>
-
-              <div className={`header-dropdown ${isUserMenuOpen ? 'header-dropdown-open' : ''}`}>
-                <div className="header-dropdown-header">
-                  <p className="header-dropdown-title">My Account</p>
-                </div>
-                <div className="header-dropdown-body">
-                  <button
-                    onClick={() => {
-                      setIsUserMenuOpen(false)
-                      onLogout()
-                    }}
-                    className="header-logout-btn"
-                  >
-                    <LogOut size={16} />
-                    <span>Logout</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="header-mobile-btn"
@@ -142,15 +96,6 @@ const Header = ({ isLoggedIn, onLogout, onNavigate, theme, onToggleTheme }) => {
             )
           })}
           
-          {isLoggedIn && (
-            <button
-              onClick={onLogout}
-              className="header-mobile-logout"
-            >
-              <LogOut size={18} />
-              <span>Logout</span>
-            </button>
-          )}
         </div>
       </div>
     </header>
