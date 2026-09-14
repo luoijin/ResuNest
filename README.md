@@ -51,19 +51,22 @@ npm.cmd run build
 
 ## Configuration
 
-Create a `.env` file only if you plan to connect the legacy Gemini service:
+Create a `.env` file to enable Gemini-powered skill extraction:
 
 ```env
 VITE_GEMINI_API_KEY=your_api_key_here
+# Optional: defaults to gemini-3.8-flash and retries compatible Flash models
+VITE_GEMINI_MODEL=gemini-3.8-flash
 ```
 
-The active analysis workflow currently uses a local keyword extractor, so no API key is required to run the app.
+The app uses Gemini first and automatically falls back to local keyword extraction if the key is missing, the request fails, or quota is unavailable.
 
 ## Important notes
 
-- PDF upload currently uses a mock resume-extraction path; its contents do not yet change the analysis result.
+- PDF uploads extract selectable text from the actual file. Image-only/scanned PDFs need OCR or should be pasted as text.
 - Authentication is demo-only and stores account data in browser `localStorage`. Do not use real credentials.
 - Job matching uses case-insensitive exact skill-name comparisons against the bundled dataset.
+- The Gemini request currently runs from the browser for this prototype. Use a backend proxy before deploying publicly so the API key is not exposed to visitors.
 
 ## Documentation
 

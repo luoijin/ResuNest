@@ -2,7 +2,7 @@ import { Sparkles, Users, Brain, Briefcase, BookOpen, CheckCircle, Rocket } from
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-12">
+    <div className="about-page min-h-screen py-12">
       <div className="max-w-4xl mx-auto px-4">
         {/* Hero Section */}
         <div className="text-center mb-12">
@@ -22,7 +22,7 @@ const About = () => {
         </div>
 
         {/* Project Description */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <div className="about-card rounded-2xl p-8 mb-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">What is ResuNest?</h2>
           <p className="text-slate-600 leading-relaxed mb-4">
             ResuNest is an intelligent platform that helps job seekers find their ideal career matches 
@@ -37,7 +37,7 @@ const About = () => {
         </div>
 
         {/* Key Features */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <div className="about-card rounded-2xl p-8 mb-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-6">Key Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex items-start space-x-3">
@@ -72,14 +72,14 @@ const About = () => {
         </div>
 
         {/* Technology Stack */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <div className="about-card rounded-2xl p-8 mb-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-6">Technology Stack</h2>
           <div className="flex flex-wrap gap-3">
-            <span className="px-4 py-2 bg-blue-50 text-blue-900 rounded-full text-sm font-medium">React</span>
-            <span className="px-4 py-2 bg-blue-50 text-blue-900 rounded-full text-sm font-medium">Vite</span>
-            <span className="px-4 py-2 bg-blue-50 text-blue-900 rounded-full text-sm font-medium">Tailwind CSS</span>
-            <span className="px-4 py-2 bg-blue-50 text-blue-900 rounded-full text-sm font-medium">Google Gemini API</span>
-            <span className="px-4 py-2 bg-blue-50 text-blue-900 rounded-full text-sm font-medium">Lucide Icons</span>
+            <span className="about-tech-chip px-4 py-2 rounded-full text-sm font-medium">React</span>
+            <span className="about-tech-chip px-4 py-2 rounded-full text-sm font-medium">Vite</span>
+            <span className="about-tech-chip px-4 py-2 rounded-full text-sm font-medium">Tailwind CSS</span>
+            <span className="about-tech-chip px-4 py-2 rounded-full text-sm font-medium">Google Gemini API</span>
+            <span className="about-tech-chip px-4 py-2 rounded-full text-sm font-medium">Lucide Icons</span>
           </div>
         </div>
         

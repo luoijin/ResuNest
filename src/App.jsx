@@ -8,6 +8,7 @@ import JobCard from './components/JobCard'
 import SkillGapChart from './components/SkillGapChart'
 import Recommendations from './components/Recommendations'
 import About from './components/About'
+import AnalysisHistory from './components/AnalysisHistory'
 import { jobsDataset } from './data/jobsDataset'
 import { learningMap } from './data/learningMap'
 import { mockLogin, mockLogout, getCurrentUser, isAuthenticated } from './utils/auth'
@@ -21,7 +22,14 @@ function App() {
   const [selectedJob, setSelectedJob] = useState(null)
   const [currentPage, setCurrentPage] = useState('home')
   const [theme, setTheme] = useState(() => localStorage.getItem('resunest_theme') || 'dark')
-  const { extractedSkills, matches, isLoading, analyzeResume, analyzePDFResume } = useResumeAnalysis(jobsDataset)
+  const [analysisHistory, setAnalysisHistory] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('resunest_analysis_history') || '[]')
+    } catch {
+      return []
+    }
+  })
+  const { extractedSkills, matches, isLoading, error, analyzeResume, analyzePDFResume, loadSavedAnalysis } = useResumeAnalysis(jobsDataset)
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -34,6 +42,11 @@ function App() {
     document.documentElement.dataset.theme = theme
     localStorage.setItem('resunest_theme', theme)
   }, [theme])
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('results-active', showResults)
+    return () => document.documentElement.classList.remove('results-active')
+  }, [showResults])
 
   const handleLogin = (email) => {
     if (mockLogin(email)) {
@@ -67,15 +80,17 @@ function App() {
 
   const handleResumeSubmit = async (submission) => {
     // This safely handles both the raw string submission AND the new tabbed object submission
+    let result = { skills: [], matches: [] }
     if (typeof submission === 'string') {
-      await analyzeResume(submission)
+      result = await analyzeResume(submission)
     } else if (submission?.type === 'text') {
-      await analyzeResume(submission.payload)
+      result = await analyzeResume(submission.payload)
     } else if (submission?.type === 'skills') {
-      await analyzeResume(submission.payload.skills, { 
+      result = await analyzeResume(submission.payload.skills, {
         experienceLevel: submission.payload.experienceLevel 
       })
     }
+    saveAnalysis(result, 'Pasted resume')
     setShowResults(true)
     setSelectedJob(null)
   }
@@ -83,9 +98,38 @@ function App() {
   const handlePDFUpload = async (file) => {
     const result = await analyzePDFResume(file)
     if (result.skills && result.skills.length > 0) {
+      saveAnalysis(result, file.name || 'Uploaded PDF')
       setShowResults(true)
       setSelectedJob(null)
     }
+  }
+
+  const saveAnalysis = (result, label) => {
+    if (!result.skills?.length) return
+
+    const entry = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      label,
+      createdAt: new Date().toISOString(),
+      skills: result.skills,
+      matches: (result.matches || []).slice(0, 6)
+    }
+    setAnalysisHistory(current => {
+      const next = [entry, ...current].slice(0, 8)
+      localStorage.setItem('resunest_analysis_history', JSON.stringify(next))
+      return next
+    })
+  }
+
+  const handleRestoreAnalysis = (entry) => {
+    loadSavedAnalysis(entry)
+    setShowResults(true)
+    setSelectedJob(null)
+  }
+
+  const handleClearHistory = () => {
+    localStorage.removeItem('resunest_analysis_history')
+    setAnalysisHistory([])
   }
 
   const handleSelectJob = (job) => setSelectedJob(job)
@@ -144,6 +188,14 @@ function App() {
                 onSubmit={handleResumeSubmit} 
                 isLoading={isLoading}
                 onPDFUpload={handlePDFUpload}
+                error={error}
+              />
+            </div>
+            <div className="hero-history">
+              <AnalysisHistory
+                entries={analysisHistory}
+                onRestore={handleRestoreAnalysis}
+                onClear={handleClearHistory}
               />
             </div>
           </div>
@@ -152,19 +204,19 @@ function App() {
         {/* Results Section */}
         {showResults && !selectedJob && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="mb-8 p-5 bg-green-50 border border-green-200 rounded-xl shadow-sm">
+            <div className="results-skills-panel mb-8 p-5 rounded-xl">
               <div className="flex justify-between items-center mb-3">
-                <h2 className="font-semibold text-green-800">Extracted Skills:</h2>
+                <h2 className="results-skills-title font-semibold">Extracted Skills:</h2>
                 <button 
                   onClick={() => setShowResults(false)}
-                  className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors bg-white px-3 py-1.5 rounded-lg border border-blue-100 shadow-sm"
+                  className="analyze-another-btn text-sm font-medium px-3 py-1.5 rounded-lg transition-colors"
                 >
                   Analyze Another
                 </button>
               </div>
               <div className="flex flex-wrap gap-2">
                 {extractedSkills.map(skill => (
-                  <span key={skill} className="px-3 py-1.5 bg-green-100 border border-green-200 text-green-800 rounded-lg text-sm font-medium">
+                  <span key={skill} className="results-skill-tag px-3 py-1.5 rounded-lg text-sm font-medium">
                     {skill}
                   </span>
                 ))}
@@ -173,7 +225,7 @@ function App() {
 
             <h2 className="text-2xl font-bold mb-6 text-slate-800">Top Job Matches</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {matches.map(job => (
+              {matches.filter(job => job.matchScore > 0).map(job => (
                 <JobCard 
                   key={job.id} 
                   job={job} 

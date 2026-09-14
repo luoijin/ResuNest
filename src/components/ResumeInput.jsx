@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
-import { FileText, Upload, Loader2, FileUp, X, CheckCircle, FlaskConical } from 'lucide-react'
+import { FileText, Upload, Loader2, FileUp, X, CheckCircle, FlaskConical, AlertCircle } from 'lucide-react'
 
-const ResumeInput = ({ onSubmit, isLoading, onPDFUpload, isPDFLoading }) => {
+const ResumeInput = ({ onSubmit, isLoading, onPDFUpload, error }) => {
   const [text, setText] = useState('')
   const [uploadedFile, setUploadedFile] = useState(null)
   const fileInputRef = useRef(null)
@@ -37,13 +37,20 @@ const ResumeInput = ({ onSubmit, isLoading, onPDFUpload, isPDFLoading }) => {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-blue-100 p-6 md:p-8 text-left">
+    <div className="bg-white rounded-2xl border border-blue-100 p-6 md:p-8 text-left">
       <div className="flex items-center space-x-3 mb-6">
         <div className="w-10 h-10 bg-blue-900 rounded-xl flex items-center justify-center">
           <FileText className="text-white" size={20} />
         </div>
         <h2 className="text-xl font-bold text-slate-900">Upload or Paste Your Resume</h2>
       </div>
+
+      {error && (
+        <div className="resume-input-error mb-5" role="alert">
+          <AlertCircle size={17} />
+          <span>{error}</span>
+        </div>
+      )}
       
       {/* PDF Upload Section */}
       <div className="mb-6">
