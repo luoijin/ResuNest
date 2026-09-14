@@ -16,19 +16,30 @@ export const extractSkillsFromText = (resumeText) => {
     // Education
     'lesson planning', 'classroom management', 'student assessment', 'formative assessment', 'differentiated instruction',
     'parent communication', 'communicated with parents', 'educational technology', 'collaborative teaching', 'curriculum development',
-    'special education', 'learning support', 'teaching',
+    'special education', 'learning support', 'teaching', 'early childhood education', 'english as a second language',
+    'esl', 'student counseling', 'behavior management', 'online teaching',
 
     // Healthcare
-    'patient care', 'clinical assessment', 'medical diagnosis', 'medical records', 'infection control',
-    'health education', 'first aid', 'nursing', 'pharmacy', 'laboratory testing', 'medical terminology',
+    'patient care', 'patient assessment', 'clinical assessment', 'clinical documentation', 'medical diagnosis',
+    'medical records', 'electronic health records', 'ehr', 'infection control', 'health education', 'preventive care',
+    'care coordination', 'patient communication', 'team collaboration', 'outpatient care', 'physical examinations',
+    'specialist referrals', 'inpatient care', 'discharge planning', 'first aid', 'nursing', 'pharmacy',
+    'laboratory testing', 'medical terminology',
 
     // Engineering
     'autocad', 'engineering design', 'technical drawing', 'safety compliance', 'quality control',
     'mathematics', 'electrical systems', 'mechanical systems', 'civil engineering', 'construction management',
+    'structural analysis', 'environmental compliance', 'industrial processes', 'aerodynamics', 'solidworks', 'revit',
+
+    // IT operations, infrastructure & support
+    'it support', 'technical support', 'troubleshooting', 'network administration', 'system administration',
+    'networking', 'windows', 'linux', 'cloud computing', 'azure', 'cybersecurity', 'database administration',
+    'hardware support', 'software installation', 'incident management',
 
     // Aviation, maritime & service crew
     'cabin crew', 'flight attendant', 'emergency response', 'safety procedures', 'maritime safety',
-    'navigation', 'seamanship', 'passenger service', 'crew coordination'
+    'navigation', 'seamanship', 'passenger service', 'crew coordination', 'ship operations', 'customer assistance',
+    'baggage handling', 'ground operations', 'service crew'
   ]
   
   const lowerText = resumeText.toLowerCase()

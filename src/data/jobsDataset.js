@@ -58,7 +58,7 @@ export const jobsDataset = [
   { id: 46, job_title: "Educational Technology Coordinator", skills_required: ["Educational Technology", "Lesson Planning", "Teaching", "Communication", "Project Management"] },
 
   // Healthcare
-  { id: 47, job_title: "General Practitioner", skills_required: ["Patient Care", "Clinical Assessment", "Medical Diagnosis", "Medical Records", "Medical Terminology", "Communication"] },
+  { id: 47, job_title: "General Practitioner", skills_required: ["Patient Assessment", "Clinical Documentation", "Preventive Care", "Care Coordination", "Patient Communication", "Electronic Health Records"] },
   { id: 48, job_title: "Registered Nurse", skills_required: ["Patient Care", "Clinical Assessment", "Nursing", "Medical Records", "Infection Control", "Communication"] },
   { id: 49, job_title: "Medical Laboratory Technologist", skills_required: ["Laboratory Testing", "Quality Control", "Medical Terminology", "Safety Compliance", "Communication"] },
   { id: 50, job_title: "Pharmacist", skills_required: ["Pharmacy", "Medical Terminology", "Patient Care", "Communication", "Health Education"] },
@@ -75,5 +75,43 @@ export const jobsDataset = [
   { id: 57, job_title: "Flight Attendant / Cabin Crew", skills_required: ["Cabin Crew", "Passenger Service", "Safety Procedures", "Emergency Response", "First Aid", "Communication", "Teamwork"] },
   { id: 58, job_title: "Cruise Ship Crew", skills_required: ["Hospitality", "Customer Service", "Safety Procedures", "Emergency Response", "Teamwork", "Communication"] },
   { id: 59, job_title: "Deck Crew / Seafarer", skills_required: ["Maritime Safety", "Navigation", "Seamanship", "Safety Procedures", "Emergency Response", "Teamwork"] },
-  { id: 60, job_title: "Airport Ground Crew", skills_required: ["Safety Procedures", "Customer Service", "Passenger Service", "Teamwork", "Communication"] }
+  { id: 60, job_title: "Airport Ground Crew", skills_required: ["Safety Procedures", "Customer Service", "Passenger Service", "Teamwork", "Communication"] },
+
+  // Physician & clinical-care specializations
+  { id: 61, job_title: "Primary Care Physician", skills_required: ["Patient Assessment", "Preventive Care", "Patient Communication", "Clinical Documentation", "Outpatient Care", "Health Education"] },
+  { id: 62, job_title: "Medical Officer", skills_required: ["Patient Assessment", "Physical Examinations", "Clinical Documentation", "Medical Diagnosis", "Inpatient Care", "Team Collaboration"] },
+  { id: 63, job_title: "Outpatient Physician", skills_required: ["Outpatient Care", "Patient Assessment", "Physical Examinations", "Care Coordination", "Specialist Referrals", "Electronic Health Records"] },
+  { id: 64, job_title: "Resident Physician", skills_required: ["Inpatient Care", "Patient Assessment", "Clinical Documentation", "Team Collaboration", "Discharge Planning", "Medical Diagnosis"] },
+  { id: 65, job_title: "Hospitalist", skills_required: ["Inpatient Care", "Patient Assessment", "Care Coordination", "Discharge Planning", "Clinical Documentation", "Team Collaboration"] },
+  { id: 66, job_title: "Clinical Care Coordinator", skills_required: ["Care Coordination", "Specialist Referrals", "Patient Communication", "Team Collaboration", "Discharge Planning", "Electronic Health Records"] },
+  { id: 67, job_title: "Community Health Physician", skills_required: ["Preventive Care", "Health Education", "Patient Communication", "Outpatient Care", "Care Coordination", "Team Collaboration"] },
+
+  // Additional education roles
+  { id: 68, job_title: "Early Childhood Teacher", skills_required: ["Early Childhood Education", "Lesson Planning", "Classroom Management", "Parent Communication", "Teaching"] },
+  { id: 69, job_title: "ESL Teacher", skills_required: ["English as a Second Language", "Lesson Planning", "Classroom Management", "Student Assessment", "Teaching"] },
+  { id: 70, job_title: "Special Education Teacher", skills_required: ["Special Education", "Learning Support", "Differentiated Instruction", "Behavior Management", "Parent Communication"] },
+  { id: 71, job_title: "Online Teacher / Tutor", skills_required: ["Online Teaching", "Lesson Planning", "Educational Technology", "Student Assessment", "Communication"] },
+  { id: 72, job_title: "School Guidance Counselor", skills_required: ["Student Counseling", "Communication", "Student Assessment", "Parent Communication", "Team Collaboration"] },
+
+  // Additional engineering roles
+  { id: 73, job_title: "Structural Engineer", skills_required: ["Structural Analysis", "Civil Engineering", "AutoCAD", "Revit", "Safety Compliance", "Mathematics"] },
+  { id: 74, job_title: "Environmental Engineer", skills_required: ["Environmental Compliance", "Engineering Design", "Safety Compliance", "Data Analysis", "Project Management"] },
+  { id: 75, job_title: "Industrial Engineer", skills_required: ["Industrial Processes", "Quality Control", "Engineering Design", "Mathematics", "Data Analysis"] },
+  { id: 76, job_title: "CAD Design Engineer", skills_required: ["AutoCAD", "SolidWorks", "Technical Drawing", "Engineering Design", "Quality Control"] },
+  { id: 77, job_title: "Construction Engineer", skills_required: ["Construction Management", "Civil Engineering", "Safety Compliance", "AutoCAD", "Project Management"] },
+
+  // IT infrastructure, support & cloud roles
+  { id: 78, job_title: "IT Support Specialist", skills_required: ["IT Support", "Technical Support", "Troubleshooting", "Hardware Support", "Software Installation", "Communication"] },
+  { id: 79, job_title: "Systems Administrator", skills_required: ["System Administration", "Windows", "Linux", "Troubleshooting", "Incident Management", "Networking"] },
+  { id: 80, job_title: "Network Administrator", skills_required: ["Network Administration", "Networking", "Troubleshooting", "Cybersecurity", "Linux", "Communication"] },
+  { id: 81, job_title: "Cloud Engineer", skills_required: ["Cloud Computing", "Azure", "AWS", "Linux", "Docker", "Networking"] },
+  { id: 82, job_title: "Database Administrator", skills_required: ["Database Administration", "SQL", "MongoDB", "Linux", "Troubleshooting", "Security"] },
+  { id: 83, job_title: "IT Service Desk Analyst", skills_required: ["Technical Support", "Incident Management", "Troubleshooting", "Customer Service", "Communication"] },
+
+  // Additional aviation, maritime & service-crew roles
+  { id: 84, job_title: "Airline Customer Service Agent", skills_required: ["Passenger Service", "Customer Assistance", "Customer Service", "Communication", "Safety Procedures"] },
+  { id: 85, job_title: "Baggage Handling Crew", skills_required: ["Baggage Handling", "Ground Operations", "Safety Procedures", "Teamwork", "Communication"] },
+  { id: 86, job_title: "Marine Engine Crew", skills_required: ["Ship Operations", "Maritime Safety", "Mechanical Systems", "Safety Procedures", "Teamwork"] },
+  { id: 87, job_title: "Passenger Ship Service Crew", skills_required: ["Service Crew", "Hospitality", "Passenger Service", "Customer Service", "Safety Procedures", "Teamwork"] },
+  { id: 88, job_title: "Airport Operations Crew", skills_required: ["Ground Operations", "Safety Procedures", "Passenger Service", "Crew Coordination", "Teamwork"] }
 ]
