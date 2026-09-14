@@ -12,8 +12,10 @@ import { jobsDataset } from './data/jobsDataset'
 import { learningMap } from './data/learningMap'
 import { useResumeAnalysis } from './hooks/useResumeAnalysis'
 
+const ACTIVE_ANALYSIS_KEY = 'resunest_active_analysis'
+
 function App() {
-  const [showResults, setShowResults] = useState(false)
+  const [showResults, setShowResults] = useState(() => Boolean(sessionStorage.getItem(ACTIVE_ANALYSIS_KEY)))
   const [selectedJob, setSelectedJob] = useState(null)
   const [isResultsMenuOpen, setIsResultsMenuOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(() => {
@@ -50,10 +52,24 @@ function App() {
     sessionStorage.setItem('resunest_current_page', currentPage)
   }, [currentPage])
 
+  useEffect(() => {
+    try {
+      const savedAnalysis = JSON.parse(sessionStorage.getItem(ACTIVE_ANALYSIS_KEY) || 'null')
+      if (savedAnalysis?.skills?.length) {
+        loadSavedAnalysis(savedAnalysis)
+        setShowResults(true)
+      }
+    } catch {
+      sessionStorage.removeItem(ACTIVE_ANALYSIS_KEY)
+      setShowResults(false)
+    }
+  }, [])
+
   const handlePDFUpload = async (file) => {
     const result = await analyzePDFResume(file)
     if (result.skills && result.skills.length > 0) {
-      saveAnalysis(result, file.name || 'Uploaded PDF')
+      const entry = saveAnalysis(result, file.name || 'Uploaded PDF')
+      sessionStorage.setItem(ACTIVE_ANALYSIS_KEY, JSON.stringify(entry))
       setShowResults(true)
       setSelectedJob(null)
     }
@@ -74,20 +90,29 @@ function App() {
       localStorage.setItem('resunest_analysis_history', JSON.stringify(next))
       return next
     })
+    return entry
   }
 
   const handleRestoreAnalysis = (entry) => {
     loadSavedAnalysis(entry)
+    sessionStorage.setItem(ACTIVE_ANALYSIS_KEY, JSON.stringify(entry))
     setShowResults(true)
     setSelectedJob(null)
   }
 
   const handleClearHistory = () => {
     localStorage.removeItem('resunest_analysis_history')
+    sessionStorage.removeItem(ACTIVE_ANALYSIS_KEY)
     setAnalysisHistory([])
   }
 
   const handleRemoveHistoryEntry = (entryId) => {
+    try {
+      const activeAnalysis = JSON.parse(sessionStorage.getItem(ACTIVE_ANALYSIS_KEY) || 'null')
+      if (activeAnalysis?.id === entryId) sessionStorage.removeItem(ACTIVE_ANALYSIS_KEY)
+    } catch {
+      sessionStorage.removeItem(ACTIVE_ANALYSIS_KEY)
+    }
     setAnalysisHistory(current => {
       const next = current.filter(entry => entry.id !== entryId)
       localStorage.setItem('resunest_analysis_history', JSON.stringify(next))
@@ -170,12 +195,19 @@ function App() {
     setSelectedJob(null)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  const handleAnalyzeAnother = () => {
+    sessionStorage.removeItem(ACTIVE_ANALYSIS_KEY)
+    setShowResults(false)
+    setIsResultsMenuOpen(false)
+  }
   
   const handleNavigate = (page) => {
     setCurrentPage(page)
     const hash = page === 'about' ? '#about' : ''
     if (window.location.hash !== hash) window.location.hash = hash
     if (page !== 'dashboard') {
+      sessionStorage.removeItem(ACTIVE_ANALYSIS_KEY)
       setShowResults(false)
       setSelectedJob(null)
     }
@@ -259,8 +291,7 @@ function App() {
                     </button>
                     <button
                       onClick={() => {
-                        setShowResults(false)
-                        setIsResultsMenuOpen(false)
+                        handleAnalyzeAnother()
                       }}
                       className="analyze-another-btn text-sm font-medium px-3 py-1.5 rounded-lg transition-colors"
                     >
