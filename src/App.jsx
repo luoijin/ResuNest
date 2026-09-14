@@ -16,7 +16,10 @@ function App() {
   const [showResults, setShowResults] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
   const [isResultsMenuOpen, setIsResultsMenuOpen] = useState(false)
-  const [currentPage, setCurrentPage] = useState(() => window.location.hash === '#about' ? 'about' : 'home')
+  const [currentPage, setCurrentPage] = useState(() => {
+    if (window.location.hash === '#about') return 'about'
+    return sessionStorage.getItem('resunest_current_page') || 'home'
+  })
   const [theme, setTheme] = useState(() => localStorage.getItem('resunest_theme') || 'light')
   const [analysisHistory, setAnalysisHistory] = useState(() => {
     try {
@@ -42,6 +45,10 @@ function App() {
     window.addEventListener('hashchange', restoreRoute)
     return () => window.removeEventListener('hashchange', restoreRoute)
   }, [])
+
+  useEffect(() => {
+    sessionStorage.setItem('resunest_current_page', currentPage)
+  }, [currentPage])
 
   const handlePDFUpload = async (file) => {
     const result = await analyzePDFResume(file)
@@ -227,7 +234,7 @@ function App() {
         {showResults && !selectedJob && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="results-skills-panel mb-8 p-5 rounded-xl">
-              <div className="flex justify-between items-center mb-3">
+              <div className="results-skills-header flex justify-between items-center mb-3">
                 <h2 className="results-skills-title font-semibold">Extracted Skills:</h2>
                 <div className={`results-panel-actions ${isResultsMenuOpen ? 'results-panel-actions-open' : ''}`}>
                   <button
