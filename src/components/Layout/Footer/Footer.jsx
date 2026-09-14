@@ -1,24 +1,19 @@
-import { Code, MessageCircle, Briefcase, Mail, Heart, Phone } from 'lucide-react'
+import { Mail } from 'lucide-react'
 import './Footer.css'
 
-const Footer = () => {
+const Footer = ({ onAction }) => {
   const quickLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'Analyze Resume', href: '#' },
-    { name: 'Job Matches', href: '#' },
-    { name: 'Learning Paths', href: '#' },
+    { name: 'Home', action: 'home' },
+    { name: 'Analyze Resume', action: 'analyze' },
+    { name: 'Job Matches', action: 'matches' },
+    { name: 'Learning Paths', action: 'learning' },
   ]
 
   const resources = [
-    { name: 'Documentation', href: '#' },
-    { name: 'Skill Guide', href: '#' },
-    { name: 'Career Tips', href: '#' },
-    { name: 'FAQ', href: '#' },
-  ]
-
-  const socialLinks = [
-    { icon: Code, href: 'https://github.com/luoijin/ResuNest/tree/main', label: 'GitHub', hoverClass: 'social-github' },
-    
+    { name: 'Documentation', href: '/documentation.html' },
+    { name: 'Skill Guide', href: 'https://www.mynextmove.org/' },
+    { name: 'Career Tips', href: 'https://www.careeronestop.org/' },
+    { name: 'FAQ', href: '/faq.html' },
   ]
 
   return (
@@ -42,23 +37,6 @@ const Footer = () => {
             <p className="footer-description">
               Your calm, focused space for turning experience into your next career opportunity.
             </p>
-            <div className="footer-social">
-              {socialLinks.map((social, i) => {
-                const Icon = social.icon
-                return (
-                  <a
-                    key={i}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className={`footer-social-link ${social.hoverClass}`}
-                  >
-                    <Icon size={18} />
-                  </a>
-                )
-              })}
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -67,9 +45,9 @@ const Footer = () => {
             <ul className="footer-links">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a href={link.href} className="footer-link">
+                  <button type="button" className="footer-link footer-link-button" onClick={() => onAction?.(link.action)}>
                     {link.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -81,7 +59,7 @@ const Footer = () => {
             <ul className="footer-links">
               {resources.map((link) => (
                 <li key={link.name}>
-                  <a href={link.href} className="footer-link">
+                  <a href={link.href} className="footer-link" target="_blank" rel="noopener noreferrer">
                     {link.name}
                   </a>
                 </li>
@@ -111,12 +89,6 @@ const Footer = () => {
                   <span>janninobansag@gmail.com</span>
                 </a>
               </li>
-              <li>
-                <a href="tel:+639123456789" className="footer-contact-link">
-                  <Phone size={16} className="footer-contact-icon" />
-                  <span>+63 912 345 6789</span>
-                </a>
-              </li>
             </ul>
           </div>
         </div>
@@ -124,8 +96,8 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="footer-bottom">
           <div className="footer-legal">
-            <a href="#" className="footer-legal-link">Privacy Policy</a>
-            <a href="#" className="footer-legal-link">Terms of Service</a>
+            <a href="/privacy.html" className="footer-legal-link">Privacy Policy</a>
+            <a href="/terms.html" className="footer-legal-link">Terms of Service</a>
           </div>
         </div>
       </div>
