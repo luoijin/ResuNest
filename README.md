@@ -14,6 +14,8 @@ Live site: [resunest.onrender.com](https://resunest.onrender.com)
 - Saves recent analyses locally in the visitor's browser.
 - Lets visitors download their current result as a PDF report.
 - Limits anonymous visitors to five PDF analyses per three-hour window.
+- Works as an installable Progressive Web App (PWA) on supported browsers.
+- Keeps an opened analysis available after a page refresh on the same browser.
 
 ## Stack
 
@@ -24,6 +26,7 @@ Live site: [resunest.onrender.com](https://resunest.onrender.com)
 - PDF.js for browser-side text extraction
 - jsPDF for downloadable reports
 - Render for deployment
+- Vite PWA for app installation and offline asset caching
 
 ## Run locally
 
@@ -50,6 +53,8 @@ npm.cmd run dev
 ## Security
 
 Keep `.env` private. Gemini and MongoDB secrets must never use a `VITE_` prefix or be committed to Git. The browser sends extracted resume text to the protected API; it does not receive the Gemini key.
+
+The original PDF is processed in the browser and is not uploaded or stored by the API. The extracted text is sent to Gemini for skill extraction. See [Features and limitations](docs/features-and-limitations.md) for the full privacy and accuracy notes.
 
 ## Documentation
 

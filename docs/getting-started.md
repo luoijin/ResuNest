@@ -50,6 +50,16 @@ npm.cmd start
 
 The Express server serves the built `dist` directory and API from the same origin.
 
+## Verify the local setup
+
+Open `http://localhost:3000`, upload a text-based PDF, and confirm the analysis result appears. You can also check the API directly:
+
+```powershell
+Invoke-RestMethod http://localhost:4000/api/health
+```
+
+It should report `status` as `ok` and `database` as `connected`.
+
 ## Render deployment
 
 Use a Node web service with:
@@ -60,3 +70,5 @@ Start Command: npm start
 ```
 
 Set `MONGODB_URI`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `RATE_LIMIT_SALT`, and `NODE_VERSION=20` in Render Environment settings. Configure MongoDB Atlas Network Access so the deployed service can connect.
+
+After deployment, open the public URL once to register the PWA service worker. The Install button is available on supported browsers when the browser permits installation; otherwise use the browser's **Install app** option.
