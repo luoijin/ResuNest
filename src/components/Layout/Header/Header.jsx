@@ -43,7 +43,10 @@ const Header = ({ currentPage, onNavigate, theme, onToggleTheme }) => {
   }
 
   const handleInstall = async () => {
-    if (!installPrompt) return
+    if (!installPrompt) {
+      window.alert('Install is not ready yet. Refresh once after the site finishes loading, then try again. You can also use your browser menu and choose “Install ResuNest”.')
+      return
+    }
     await installPrompt.prompt()
     await installPrompt.userChoice
     setInstallPrompt(null)
@@ -66,7 +69,7 @@ const Header = ({ currentPage, onNavigate, theme, onToggleTheme }) => {
         </div>
 
         <div className="header-nav-links">
-          {!isInstalled && installPrompt && (
+          {!isInstalled && (
             <button onClick={handleInstall} className="header-install-btn">
               <Download size={16} />
               <span>Install</span>
@@ -109,7 +112,7 @@ const Header = ({ currentPage, onNavigate, theme, onToggleTheme }) => {
 
       <div className={`header-mobile-menu ${isMobileMenuOpen ? 'header-mobile-menu-open' : ''}`}>
         <div className="header-mobile-links">
-          {!isInstalled && installPrompt && (
+          {!isInstalled && (
             <button onClick={handleInstall} className="header-mobile-install-btn">
               <Download size={18} />
               <span>Install ResuNest</span>
