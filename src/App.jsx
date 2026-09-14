@@ -16,7 +16,7 @@ function App() {
   const [showResults, setShowResults] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
   const [currentPage, setCurrentPage] = useState(() => window.location.hash === '#about' ? 'about' : 'home')
-  const [theme, setTheme] = useState(() => localStorage.getItem('resunest_theme') || 'dark')
+  const [theme, setTheme] = useState(() => localStorage.getItem('resunest_theme') || 'light')
   const [analysisHistory, setAnalysisHistory] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('resunest_analysis_history') || '[]')
