@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Download } from 'lucide-react'
 import { jsPDF } from 'jspdf'
-import Layout from './components/layout/Layout'
+import Layout from './components/Layout/Layout'
 import ResumeInput from './components/ResumeInput'
 import JobCard from './components/JobCard'
 import SkillGapChart from './components/SkillGapChart'
