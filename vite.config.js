@@ -18,7 +18,10 @@ export default defineConfig({
         id: '/',
         scope: '/',
         start_url: '/',
-        icons: [{ src: '/resunest-icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }]
+        icons: [
+          { src: '/resunest-icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: '/resunest-icon.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+        ]
       }
     })
   ],
